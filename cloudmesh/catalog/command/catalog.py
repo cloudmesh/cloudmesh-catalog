@@ -16,8 +16,10 @@ class CatalogCommand(PluginCommand):
         ::
 
           Usage:
-                catalog --file=FILE
                 catalog list
+                catalog init --directory=DIR
+                catalog query --name=NAME
+                catalog table --attributes=ATTRIBUTES #string with commas i.e. 'id,name'
 
           This command does some useful things.
 
@@ -32,19 +34,21 @@ class CatalogCommand(PluginCommand):
 
         # arguments.FILE = arguments['--file'] or None
 
-        map_parameters(arguments, "file")
+        map_parameters(arguments, "directory", "name", "attributes")
+      
 
         VERBOSE(arguments)
 
-        m = Manager()
+        if arguments.query:
+            print(arguments.name)
 
-        if arguments.file:
-            print("option a")
-            m.list(path_expand(arguments.file))
-
-        elif arguments.list:
+        elif arguments["list"]:
             print("option b")
-            m.list("just calling list without parameter")
+            
+        elif arguments.table:
+            attributes = split(arguments.attributes,",")
+            print(attributes)
+            catalog = Catalog()
+            print(Printer.write(catalog.data,header=attributes))
 
-        Console.error("This is just a sample")
         return ""
