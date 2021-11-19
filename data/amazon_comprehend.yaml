@@ -1,0 +1,29 @@
+amazon_comprehend:
+  id: "unknown"
+  name: "Amazon Comprehend",
+  title: "Amazon Comprehend",
+  public: True,
+  description: |
+    "Comprehend is Amazon\'s solution for cloud-based NLP. It is available with an AWS account. To use,
+     it requires use of either the AWS Command Line Interface or an AWS SDK for Python, Java, or .NET. 
+     Notable features include functionality for giving batches of documents to be processed as well as 
+     submission of multiple jobs in a list. The DetectEntities function also allows use of a custom-trained 
+     model, but many other functions do not."
+  version: "unknown",
+  license: "unknown",
+  microservice: "no",
+  protocol: "AWS API",
+  owner: "Amazon Web Services",
+  modified: "9/29/2021",
+  created: "11/29/2017",
+  documentation: "https://docs.aws.amazon.com/comprehend/index.html",
+  tags: ["nlp", "nlp service", "machine learning", "cloud service", "nlp api",
+        "deep learning", "natural language processing", "artificial intelligence"],
+  categories: ["NLP"],
+  sla: "https://aws.amazon.com/machine-learning/language/sla/",
+  authors: "The AWS team can be contacted through support ticket at https://aws.amazon.com/contact-us/",
+  data: |
+    "User data is stored on Amazon servers under the associated AWS account and is protected under the AWS
+    shared responsibility model as detailed here https://aws.amazon.com/compliance/shared-responsibility-model/"
+
+  
