@@ -1,25 +1,28 @@
 from dataclasses import dataclass, field
 import pickle
-from fastapi import FastAPI
+import glob
+import yaml
+#from fastapi import FastAPI
 
 from pickleable_mixin import PickleableMixin
 
-app = FastAPI()
+#app = FastAPI()
 
 
-@app.get("/cloudmesh/v1-0/catalog/{name}")
+#@app.get("/cloudmesh/v1-0/catalog/{name}")
 async def get_name(name):
-    catalog = Catalog()
+    catalog = Catalog('/data/')
     entry = catalog.query({'name': name})
     return entry
 
 
 class Catalog(PickleableMixin):
     def __init__(self, directory):
-        self.directory = directory #string
-        self.data = self.load(directory) #dictionary
+        self.directory = directory # string (i.e., 'data/')
+        self.data = {} # dictionary
+        self.load(directory) # load self.data using yaml files in the directory
         
-    def query(search):
+    def query(self, search):
         if search.keys([0]) == 'name':
             for entry in self.data:
                 if self.data['name'] == search.keys([1]):
@@ -27,14 +30,18 @@ class Catalog(PickleableMixin):
         return None
 
     def add(self, file):
-        pass
-        # dictionary = yaml.load(file)
-        # self.data.add(dictionary)
+        with open(file, "r") as stream:
+            try:
+                parsed_yaml = yaml.safe_load(stream)
+            except yaml.YAMLError as exc:
+                print(exc)
+        self.data.update(parsed_yaml) # update self.data with data from new file
 
+    # loads self.data using yaml files in the directory
     def load(self, directory=None):
         if directory is None:
             directory = self.directory
-        files = glob.glob(directory)
+        files = glob.glob(directory + '*.yaml') # gets list of yaml files in given directory
         for file in files:
             self.add(file)
 
