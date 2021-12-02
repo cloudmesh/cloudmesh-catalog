@@ -1,17 +1,16 @@
 from dataclasses import dataclass, field
-import pickle
 import glob
 import yaml
-#from fastapi import FastAPI
+from fastapi import FastAPI
 
 from pickleable_mixin import PickleableMixin
 
-#app = FastAPI()
+app = FastAPI()
 
 
-#@app.get("/cloudmesh/v1-0/catalog/{name}")
+@app.get("/cloudmesh/v1-0/catalog/{name}")
 async def get_name(name):
-    catalog = Catalog('/data/')
+    catalog = Catalog('data/')
     entry = catalog.query({'name': name})
     return entry
 
@@ -20,15 +19,19 @@ class Catalog(PickleableMixin):
     def __init__(self, directory):
         self.directory = directory # string (i.e., 'data/')
         self.data = {} # dictionary
-        self.load(directory) # load self.data using yaml files in the directory
+        self.load(directory) # loads self.data using yaml files in the given directory
         
+    # takes a query in the form {'name': name}, i.e. {'name': 'Amazon Comprehend'}
+    # search : dict
     def query(self, search):
-        if search.keys([0]) == 'name':
+        if 'name' in search.keys():
             for entry in self.data:
-                if self.data['name'] == search.keys([1]):
-                    return entry
+                if self.data[entry]['name'] == search['name']:
+                    return self.data[entry]
         return None
 
+    # adds a yaml file to this catalog's self.data 
+    # file : string (i.e., 'data/amazon_comprehend.yaml')
     def add(self, file):
         with open(file, "r") as stream:
             try:
@@ -37,7 +40,8 @@ class Catalog(PickleableMixin):
                 print(exc)
         self.data.update(parsed_yaml) # update self.data with data from new file
 
-    # loads self.data using yaml files in the directory
+    # loads self.data using yaml files in the given directory
+    # directory : string (i.e., 'data/')
     def load(self, directory=None):
         if directory is None:
             directory = self.directory
@@ -92,3 +96,13 @@ class CatalogEntry():
     authors: str = 'unknown'
     # description on how data is managed
     data: str = 'unknown'
+
+
+# FOR TESTING
+if __name__ == "__main__":
+
+    cat = Catalog('data/')
+    #print(cat.data)
+
+    query_result = cat.query({'name': 'Amazon Comprehend'})
+    print(query_result)
