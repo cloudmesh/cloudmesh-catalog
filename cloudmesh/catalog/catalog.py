@@ -56,6 +56,10 @@ class CatalogEntry():
     id: str
     # Name of the service
     name: str
+    # Author of the service
+    author: str
+    # slugline of the service (i.e., amazon-comprehend)
+    slug: str
     # Human readable title
     title: str
     # True if public (needs use case to delineate what pub private means)

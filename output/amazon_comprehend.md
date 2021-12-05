@@ -2,25 +2,33 @@
 title: Amazon Comprehend
 author: Amazon
 slug: amazon-comprehend
-date: "2021-12-02"
+date: 2021-12-02
 description: |
-    "Comprehend is Amazon\'s solution for cloud-based NLP. It is available with an AWS account. To use,
-     it requires use of either the AWS Command Line Interface or an AWS SDK for Python, Java, or .NET. 
-     Notable features include functionality for giving batches of documents to be processed as well as 
-     submission of multiple jobs in a list. The DetectEntities function also allows use of a custom-trained 
-     model, but many other functions do not."
+    Comprehend is Amazon's solution for cloud-based NLP. It is available with an AWS account. To use,
+    it requires use of either the AWS Command Line Interface or an AWS SDK for Python, Java, or .NET. 
+    Notable features include functionality for giving batches of documents to be processed as well as 
+    submission of multiple jobs in a list. The DetectEntities function also allows use of a custom-trained
+    model, but many other functions do not.
 categories:
-- "NLP"
+- NLP
 tags:
-- "nlp"
-- "nlp service"
-- "machine learning"
-- "cloud service"
-- "nlp api"
-- "deep learning"
-- "natural language processing"
-- "artificial intelligence"
+- nlp
+- nlp service
+- machine learning
+- cloud service
+- nlp api
+- deep learning
+- natural language processing
+- artificial intelligence
 ---
+
+## Description
+
+Comprehend is Amazon's solution for cloud-based NLP. It is available with an AWS account. To use,
+it requires use of either the AWS Command Line Interface or an AWS SDK for Python, Java, or .NET. 
+Notable features include functionality for giving batches of documents to be processed as well as 
+submission of multiple jobs in a list. The DetectEntities function also allows use of a custom-trained
+model, but many other functions do not.
 
 ## Data
 
