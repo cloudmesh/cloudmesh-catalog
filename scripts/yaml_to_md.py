@@ -1,8 +1,25 @@
 import os
 from re import L
+import re
+import copy
 from mdutils.mdutils import MdUtils
 import yaml
 from datetime import datetime
+
+def extract_urls(text):
+    urls = re.findall('(?P<url>https?://[^\s]+)', text)
+    return urls
+
+def markdownify_urls(text):
+    if type(text) != str:
+        return text
+    output = text
+    urls = extract_urls(text)
+    for url in urls:
+        new_formatted = '[' + url + ']' + '(' + url + ')'
+        output = output.replace(url, new_formatted)
+    return output
+
 
 class YamlToMd:
     def __init__(self, file):
@@ -36,12 +53,13 @@ class YamlToMd:
 
     # generates the output md file in the cwd
     # name : string of desired filename (default: uses original filename)
-    def generate_md(self, name=None):
+    # dir : used only if name is default, signifies the output directory
+    def generate_md(self, dir='', name=None):
         if name is None: # reuse original filename if none provided
-            name = os.path.basename(self.file).rsplit(".", 1)[0]
+            name = os.path.basename(self.file).rsplit(".", 1)[0] # strips to only the filename without extension (i.e., 'data/amazon_comprehend.yaml' -> 'amazon_comprehend')
+            name = dir + name
 
         #-- BEGIN THE MD FILE BUILD --#
-        print(self.data)
         mdFile = MdUtils(file_name=name,title='')
 
         # Metadata 
@@ -55,7 +73,7 @@ class YamlToMd:
         mdFile.new_line()
         mdFile.write('date: ' + datetime.today().strftime('%Y-%m-%d'))
         mdFile.new_line()
-        mdFile.write('description: ' + self.data['description'].replace("\n", " "))
+        mdFile.write('description: ' + markdownify_urls(self.data['description'].replace("\n", " ")))
         mdFile.new_line()
         mdFile.write('categories:')
         mdFile.new_line()
@@ -65,24 +83,47 @@ class YamlToMd:
         self.md_write_list(mdFile, self.data['tags'])
         mdFile.write('---')
         mdFile.new_line()
+
+        # Description
+        mdFile.new_header(level=1, title='Description')
+        mdFile.new_line()
+        mdFile.write(markdownify_urls(self.data['description'].replace("\n", " ")))
+        mdFile.new_line()
+
         # Data
         mdFile.new_header(level=1, title='Data')
         mdFile.new_line()
-        mdFile.write(self.data['data'].replace("\n", " "))
+        mdFile.write(markdownify_urls(self.data['data'].replace("\n", " ")))
         mdFile.new_line()
+
+        # Details
         mdFile.new_header(level=1, title='Details')
+
+        table_keys = ['name', 'public', 'version', 'license', 'microservice', 'protocol', 'owner', 'modified', 'created', 'documentation', 'sla', 'authors']
+        table_columns = ['Attribute', 'Value']
+
+        table_strings = copy.deepcopy(table_columns)
+        for k in table_keys:
+            table_strings.extend([k, markdownify_urls(self.data[k])])
+        mdFile.new_line()
+        mdFile.new_table(columns=len(table_columns), rows=len(table_keys)+1, text=table_strings, text_align='center')
+
 
         # write to file
         mdFile.create_md_file()
 
-
+        # workaround to replace empty three lines at beginning of file added by mdutils
+        content = mdFile.read_md_file(name)
+        f = open(name+'.md', "w")
+        f.write(content[3:])
+        f.close()
 
         
 
 # FOR TESTING
 if __name__ == "__main__":
     converter = YamlToMd('data/amazon_comprehend.yaml')
-    converter.generate_md()
+    converter.generate_md(dir='output/')
 
 
     
