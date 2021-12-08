@@ -105,7 +105,6 @@ class YamlToMd:
         table_strings = copy.deepcopy(table_columns)
         for k in table_keys:
             table_strings.extend([k, markdownify_urls(self.data[k])])
-        mdFile.new_line()
         mdFile.new_table(columns=len(table_columns), rows=len(table_keys)+1, text=table_strings, text_align='center')
 
 
@@ -120,9 +119,9 @@ class YamlToMd:
 
         
 
-# FOR TESTING
+# FOR TESTING/generate md files here
 if __name__ == "__main__":
-    converter = YamlToMd('data/amazon_comprehend.yaml')
+    converter = YamlToMd('data/ibm_natural_language.yaml')
     converter.generate_md(dir='output/')
 
 
