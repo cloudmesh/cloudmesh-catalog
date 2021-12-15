@@ -70,6 +70,8 @@ amazon_catalog_data = cat.query({'name': 'Amazon Comprehend'})
 catalog.add('new_example/azure_language.yaml')
 # save entire catalog to a pickle file
 catalog.to_pickle('catalog.pkl')
+# load from pickle file
+catalog.from_pickle('catalog.pkl')
 # print catalog data
 print(catalog.data)
 ```
