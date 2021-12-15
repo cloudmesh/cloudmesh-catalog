@@ -13,9 +13,39 @@ async def get_name(name):
     entry = registry.query({'name': name})
     return entry
 
-# Will this be exact same as Catalog? Maybe just use same class?
 class Registry(PickleableMixin):
-    pass
+    def __init__(self, directory):
+        self.directory = directory # string (i.e., 'data/')
+        self.data = {} # dictionary
+        self.load(directory) # loads self.data using yaml files in the given directory
+        
+    # takes a query in the form {'name': name}, i.e. {'name': 'Amazon Comprehend'}
+    # search : dict
+    def query(self, search):
+        if 'name' in search.keys():
+            for entry in self.data:
+                if self.data[entry]['name'] == search['name']:
+                    return self.data[entry]
+        return None
+
+    # adds a yaml file to this catalog's self.data 
+    # file : string (i.e., 'data/amazon_comprehend.yaml')
+    def add(self, file):
+        with open(file, "r") as stream:
+            try:
+                parsed_yaml = yaml.safe_load(stream)
+            except yaml.YAMLError as exc:
+                print(exc)
+        self.data.update(parsed_yaml) # update self.data with data from new file
+
+    # loads self.data using yaml files in the given directory
+    # directory : string (i.e., 'data/')
+    def load(self, directory=None):
+        if directory is None:
+            directory = self.directory
+        files = glob.glob(directory + '*.yaml') # gets list of yaml files in given directory
+        for file in files:
+            self.add(file)
 
 @dataclass
 class RegistryEntry():

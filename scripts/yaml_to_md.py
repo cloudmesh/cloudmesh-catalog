@@ -6,10 +6,13 @@ from mdutils.mdutils import MdUtils
 import yaml
 from datetime import datetime
 
+# returns a list of urls in given string
 def extract_urls(text):
     urls = re.findall('(?P<url>https?://[^\s]+)', text)
     return urls
 
+# converts urls to markdown-clickable urls 
+# string -> string
 def markdownify_urls(text):
     if type(text) != str:
         return text
@@ -99,7 +102,7 @@ class YamlToMd:
         # Details
         mdFile.new_header(level=1, title='Details')
 
-        table_keys = ['name', 'public', 'version', 'license', 'microservice', 'protocol', 'owner', 'modified', 'created', 'documentation', 'sla', 'authors']
+        table_keys = ['name', 'public', 'version', 'license', 'microservice', 'protocol', 'owner', 'modified', 'created', 'documentation', 'source', 'specification', 'additional_metadata', 'endpoint', 'sla', 'authors']
         table_columns = ['Attribute', 'Value']
 
         table_strings = copy.deepcopy(table_columns)
@@ -121,7 +124,7 @@ class YamlToMd:
 
 # FOR TESTING/generate md files here
 if __name__ == "__main__":
-    converter = YamlToMd('data/ibm_natural_language.yaml')
+    converter = YamlToMd('data/catalog/amazon_comprehend.yaml')
     converter.generate_md(dir='output/')
 
 
