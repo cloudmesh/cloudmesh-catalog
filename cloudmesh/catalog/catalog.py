@@ -105,8 +105,8 @@ class CatalogEntry():
 # FOR TESTING
 if __name__ == "__main__":
 
-    cat = Catalog('data/')
+    catalog = Catalog('data/catalog/')
     #print(cat.data)
 
-    query_result = cat.query({'name': 'Amazon Comprehend'})
+    query_result = catalog.query({'name': 'Amazon Comprehend'})
     print(query_result)
