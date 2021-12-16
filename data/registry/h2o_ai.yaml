@@ -13,7 +13,7 @@ h2o_ai:
   version: unknown
   license: Apache License 2.0
   protocol: REST
-  owner: Amazon Web Services
+  owner: H2O
   modified: 12/15/2021
   created: 03/06/2015
   documentation: https://docs.aws.amazon.com/comprehend/index.html
