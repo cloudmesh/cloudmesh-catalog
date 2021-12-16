@@ -27,7 +27,7 @@ specific to healthcare NLP as well as a code-free ML model manager called AutoML
 
 # Data
   
-The Google Cloud Natural Language policy on data usage is described here: [https://cloud.google.com/natural-language/docs/data_usage](https://cloud.google.com/natural-language/docs/data_usage)   
+The Google Cloud Natural Language policy on data usage is described here: [https://cloud.google.com/natural-language/docs/data_usage](https://cloud.google.com/natural-language/docs/data_usage)
 
 # Details
 

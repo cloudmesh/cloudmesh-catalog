@@ -16,7 +16,7 @@ h2o_ai:
   owner: H2O
   modified: 12/15/2021
   created: 03/06/2015
-  documentation: https://docs.aws.amazon.com/comprehend/index.html
+  documentation: https://docs.h2o.ai/
   source: https://github.com/h2oai
   specification: unknown
   tags: ["artificial intelligence", "business solutions", "app development", 

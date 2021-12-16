@@ -85,3 +85,6 @@ Here is an example which takes the catalog data entry 'data/catalog/amazon_compr
 converter = YamlToMd('data/catalog/amazon_comprehend.yaml')
 converter.generate_md(dir='output/')
 ```
+
+Note that it is advisable to go through and look over the generated markdown files manually to spot any possible minor errors in conversion.
+One such known error comes from the MdUtils package, which may add extra line breaks that split some urls unintentionally.

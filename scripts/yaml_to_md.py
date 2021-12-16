@@ -124,7 +124,7 @@ class YamlToMd:
 
 # FOR TESTING/generate md files here
 if __name__ == "__main__":
-    converter = YamlToMd('data/catalog/amazon_comprehend.yaml')
+    converter = YamlToMd('data/catalog/wipro_holmes.yaml')
     converter.generate_md(dir='output/')
 
 
