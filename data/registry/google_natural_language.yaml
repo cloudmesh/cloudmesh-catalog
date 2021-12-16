@@ -3,7 +3,6 @@ google_natural_language:
   name: Google Natural Language API
   title: Google Natural Language API
   author: Google
-  slug: google-natural-language
   public: true
   description: |
     Google Natural Language API is Google's solution for cloud-based NLP. It requires a Google Cloud account.
@@ -12,7 +11,6 @@ google_natural_language:
     part of Google Cloud.
   version: unknown
   license: unknown
-  microservice: no
   protocol: REST
   owner: Google
   modified: 12/07/2021
@@ -27,8 +25,10 @@ google_natural_language:
   endpoint: unknown
   sla: https://cloud.google.com/natural-language/sla
   authors: The Google Cloud team can be contacted through https://cloud.google.com/contact
-  data: |
-    The Google Cloud Natural Language policy on data usage is described here:
-    https://cloud.google.com/natural-language/docs/data_usage
+  input: []
+  output: []
+  heartbeat: unknown
+  caching_interval: unknown
+  data_integration: unknown
 
   

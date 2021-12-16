@@ -1,0 +1,35 @@
+baidu_ai_cloud:
+  id: unknown
+  name: Baidu AI Cloud
+  title: Baidu AI Cloud
+  author: Baidu
+  slug: baidu-ai-cloud
+  public: true
+  description: |
+    Baidu is a China-based company available mainly to Chinese customers.
+    Baidu AI Cloud includes a diverse range of cloud computing solutions to problems
+    over topics including data management, remote computing, video services, security, and others.
+    Through specifically machine learning, Baidu offers services in computer vision, Auto ML/DL,
+    visual modeling, and project management. Notably missing is a dedicated section for language processing.
+  version: unknown
+  license: unknown
+  microservice: no
+  protocol: REST
+  owner: Baidu
+  modified: 12/15/2021
+  created: 09/20/2017
+  documentation: https://intl.cloud.baidu.com/doc/index.html
+  source: unknown
+  specification: unknown
+  tags: ["artificial intelligence", "business solutions",
+        "machine learning", "cloud service",
+        "deep learning", "ai"]
+  categories: ["Business", "Data Management", "General Services"]
+  additional_metadata: unknown
+  endpoint: unknown
+  sla: https://intl.cloud.baidu.com/doc/DCC/s/Ejwvxmvl0-en
+  authors: The Baidu team can be contacted through support ticket within a user's account.
+  data: |
+    Baidu's policy on data usage and management can be read about through
+    https://intl.cloud.baidu.com/doc/Agreements/s/ek77inppz-en
+

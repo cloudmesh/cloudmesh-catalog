@@ -1,0 +1,33 @@
+data_robot:
+  id: unknown
+  name: DataRobot
+  title: DataRobot
+  author: DataRobot
+  public: true
+  description: |
+    DataRobot is a cloud service solution for a wide variety of AI problems and use cases,
+    mostly geared to providing solutions to common AI problems businesses face in major industries.
+    Also offered is a web-based UI hub for data scientists to manage different projects and available
+    algorithms and templates during the development process.
+  version: 7.2
+  license: unknown
+  protocol: REST
+  owner: DataRobot
+  modified: 12/15/2021
+  created: 12/15/2021
+  documentation: https://docs.datarobot.com/
+  source: unknown
+  specification: unknown
+  tags: ["artificial intelligence", "business solutions",
+        "machine learning", "cloud service",
+        "deep learning", "ai", "web interface"]
+  categories: ["Business", "Data Management", "General Services"]
+  additional_metadata: unknown
+  endpoint: REST, DataRobot web interface, or Python or R environment
+  sla: https://www.datarobot.com/terms-of-service/
+  authors: The DataRobot team can be contacted through general inquiry at https://www.datarobot.com/contact-us/
+  input: []
+  output: []
+  heartbeat: unknown
+  caching_interval: unknown
+  data_integration: unknown

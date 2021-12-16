@@ -1,0 +1,32 @@
+wipro_holmes:
+  id: unknown
+  name: Wipro Holmes
+  title: Wipro Holmes
+  author: Wipro
+  public: false
+  description: |
+    Wipro Holmes is a private consultation-based cloud service solution for a wide variety of AI problems
+    and use cases. There is no clear documentation available, and instead of the features being openly
+    published on the website, they require private contact.
+  version: unknown
+  license: unknown
+  protocol: unknown
+  owner: Wipro
+  modified: 12/15/2021
+  created: 12/15/2021
+  documentation: unknown
+  source: unknown
+  specification: unknown
+  tags: ["artificial intelligence", "business solutions",
+        "machine learning", "cloud service",
+        "deep learning", "ai", "consultation based"]
+  categories: ["Business", "General Services"]
+  additional_metadata: unknown
+  endpoint: unknown
+  sla: unknown
+  authors: The Wipro team can be contacted through contact ticket at https://www.wipro.com/analytics/
+  input: []
+  output: []
+  heartbeat: unknown
+  caching_interval: unknown
+  data_integration: unknown

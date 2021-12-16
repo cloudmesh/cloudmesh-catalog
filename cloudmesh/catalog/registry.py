@@ -84,7 +84,7 @@ class RegistryEntry():
     # Name of the distributing entity, organization or individual. It could be a vendor.
     owner: str
     # contact details of the people or organization responsible for the service (freeform string)
-    author: str
+    authors: str
     # Human readable common tags that are used to identify the service that are associated with the service
     tags: list = field(default_factory=list)
     # A category that this service belongs to (NLP, Finance, …)
@@ -115,33 +115,6 @@ class RegistryEntry():
 
 # for testing
 if __name__ == "__main__":
-    
-    amazon_comprehend = RegistryEntry(
-        id='unknown',
-        name='Amazon Comprehend',
-        title='Amazon Comprehend',
-        public=True,
-        description='Comprehend is Amazon\'s solution for cloud-based NLP. It is available with an AWS account. To use, it requires use of either the AWS Command Line Interface or an AWS SDK for Python, Java, or .NET. Notable features include functionality for giving batches of documents to be processed as well as submission of multiple jobs in a list. The DetectEntities function also allows use of a custom-trained model, but many other functions do not.',
-        endpoint='unknown',
-        input='',
-        output='',
-        version='unknown',
-        license='unknown',
-        protocol='AWS API',
-        modified='9/29/2021',
-        owner='Amazon Web Services',
-        author='The AWS team can be contacted through support ticket at https://aws.amazon.com/contact-us/',
-        tags=['nlp', 'nlp service', 'machine learning', 'cloud service', 'nlp api',
-              'deep learning', 'natural language processing', 'artificial intelligence'],
-        categories=['NLP'],
-        created='11/29/2017',
-        documentation='https://docs.aws.amazon.com/comprehend/index.html',
-        sla='https://aws.amazon.com/machine-learning/language/sla/',
-
-    )
-
-    amazon_comprehend.to_pickle('amazon_comprehend_registry_entry.pkl')
-    retrieved = amazon_comprehend.from_pickle('amazon_comprehend_registry_entry.pkl')
-    print(retrieved)
+    pass
 
     

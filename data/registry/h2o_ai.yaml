@@ -1,0 +1,35 @@
+h2o_ai:
+  id: unknown
+  name: H2O.ai
+  title: H2O.ai
+  author: H2O.ai
+  public: true
+  description: |
+    H2O.ai is an open-source web service solution for a wide variety of AI solutions and use cases,
+    mostly geared to providing solutions to common AI problems businesses face in major industries.
+    Additional products include H2O Wave, a Python framework for AI-based app development,
+    and H2O AutoML, which automates away aspects of machine learning implementation such
+    as parameter tuning and model generation.
+  version: unknown
+  license: Apache License 2.0
+  protocol: REST
+  owner: Amazon Web Services
+  modified: 12/15/2021
+  created: 03/06/2015
+  documentation: https://docs.aws.amazon.com/comprehend/index.html
+  source: https://github.com/h2oai
+  specification: unknown
+  tags: ["artificial intelligence", "business solutions", "app development", 
+        "machine learning", "cloud service", "Python framework",
+        "deep learning", "ai", "open source"]
+  categories: ["Business", "General Services"]
+  additional_metadata: unknown
+  endpoint: unknown
+  sla: https://www.h2o.ai/enterprise-support/
+  authors: The H2O team can be contacted through support ticket at https://www.h2o.ai/company/contact-us/
+  input: []
+  output: []
+  heartbeat: unknown
+  caching_interval: unknown
+  data_integration: unknown
+  

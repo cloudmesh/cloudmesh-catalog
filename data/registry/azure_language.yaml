@@ -3,7 +3,6 @@ azure_language:
   name: Azure Cognitive Service for Language
   title: Azure Cognitive Service for Language
   author: Microsoft
-  slug: azure-language
   public: true
   description: |
     Azure Cognitive Service for Language is Microsoft's solution for cloud-based NLP.
@@ -12,7 +11,6 @@ azure_language:
     options which allow the input of one's own custom-trained model.
   version: unknown
   license: unknown
-  microservice: no
   protocol: REST
   owner: Microsoft
   modified: 11/18/2021
@@ -27,8 +25,11 @@ azure_language:
   endpoint: unknown
   sla: https://www.azure.cn/en-us/support/sla/cognitive-services/
   authors: The Azure team can be contacted through support request within the user's Azure portal
-  data: |
-    User data is stored on Azure servers under the associated Azure account and is protected under
-    the Trusted Cloud model as detailed here https://azure.microsoft.com/en-us/overview/trusted-cloud/privacy/
+  input: []
+  output: []
+  heartbeat: unknown
+  caching_interval: unknown
+  data_integration: unknown
+  
 
   

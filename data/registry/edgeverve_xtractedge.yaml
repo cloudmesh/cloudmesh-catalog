@@ -1,0 +1,32 @@
+edgeverve_xtractedge:
+  id: unknown
+  name: Edgeverve Xtractedge
+  title: Edgeverve Xtractedge
+  author: Edgeverve
+  public: false
+  description: |
+    Edgeverve Xtractedge, also known as Infosys Nia, is a private consultation-based cloud service solution
+    meant primarily for extracting information from documents. There is no clear documentation available,
+    and instead of the features being openly published on the website, they require private contact to explore further.
+  version: unknown
+  license: unknown
+  protocol: unknown
+  owner: Edgeverve
+  modified: 12/15/2021
+  created: 12/15/2021
+  documentation: unknown
+  source: unknown
+  specification: unknown
+  tags: ["artificial intelligence", "business solutions",
+        "machine learning", "cloud service",
+        "deep learning", "ai", "consultation based", "nlp"]
+  categories: ["Business", "NLP"]
+  additional_metadata: unknown
+  endpoint: unknown
+  sla: unknown
+  authors: The Edgeverve team can be contacted through contact ticket at https://www.edgeverve.com/contact/
+  input: []
+  output: []
+  heartbeat: unknown
+  caching_interval: unknown
+  data_integration: unknown

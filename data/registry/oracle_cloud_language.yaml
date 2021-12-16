@@ -1,0 +1,33 @@
+oracle_cloud_language:
+  id: unknown
+  name: Oracle Cloud Language
+  title: Oracle Cloud Language
+  author: Oracle
+  public: true
+  description: |
+    Oracle Cloud Language is Oracle's solution to cloud-based NLP.
+    It is nested under the larger Oracle Cloud service. Unlike some other
+    similar cloud NLP services, Oracle Cloud Language only supports English
+    outside of its language detection function. Otherwise, it contains the common
+    functions of classification, keyphrase extraction, entity recognition, and sentiment analysis.
+  version: unknown
+  license: unknown
+  protocol: REST
+  owner: Oracle
+  modified: 12/15/2021
+  created: 05/06/2021
+  documentation: https://docs.oracle.com/en-us/iaas/language/using/overview.htm
+  source: unknown
+  specification: unknown
+  tags: ["nlp", "nlp service", "machine learning", "cloud service", "nlp api",
+        "deep learning", "natural language processing", "artificial intelligence"]
+  categories: ["NLP"]
+  additional_metadata: unknown
+  endpoint: unknown
+  sla: https://www.oracle.com/cloud/sla/
+  authors: The Oracle team can be contacted through a user's individual My Oracle Support portal.
+  input: []
+  output: []
+  heartbeat: unknown
+  caching_interval: unknown
+  data_integration: unknown

@@ -3,7 +3,6 @@ einstein_language:
   name: Salesforce Einstein Language
   title: Salesforce Einstein Language
   author: Salesforce
-  slug: salesforce-einstein-language
   public: true
   description: |
     Einstein Language is Salesforce's solution to cloud-based NLP. It requires a Salesforce/Einstein account.
@@ -13,7 +12,6 @@ einstein_language:
     Sentiment is comparable to the classic sentiment detection provided by other NLP services.
   version: unknown
   license: unknown
-  microservice: no
   protocol: REST
   owner: Salesforce
   modified: 12/07/2021
@@ -28,7 +26,9 @@ einstein_language:
   endpoint: unknown
   sla: unknown
   authors: The Salesforce Einstein team may be contacted through https://metamind.readme.io/docs/getting-help
-  data: |
-    Information on how Einstein handles user data may be found through
-    https://help.salesforce.com/s/articleView?id=sf.aac_manage_data_policies.htm&type=5
+  input: []
+  output: []
+  heartbeat: unknown
+  caching_interval: unknown
+  data_integration: unknown
   

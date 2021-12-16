@@ -3,7 +3,6 @@ ibm_natural_language:
   name: IBM Watson Natural Language Understanding
   title: IBM Watson Natural Language Understanding
   author: IBM
-  slug: ibm-watson-natural-language
   public: true
   description: |
     Watson Natural Language Understanding is IBM's solution to cloud-based NLP.
@@ -14,7 +13,6 @@ ibm_natural_language:
     that tends to be more specific to businesses.
   version: unknown
   license: unknown
-  microservice: no
   protocol: REST
   owner: IBM
   modified: 12/07/2021
@@ -29,8 +27,10 @@ ibm_natural_language:
   endpoint: unknown
   sla: https://www-40.ibm.com/software/sla/sladb.nsf/8bd55c6b9fa8039c86256c6800578854/604c5fb91b10c661862583c9004c099b/$FILE/i128-0025-09_03-2019_en_US.pdf
   authors: The IBM team can be contacted through https://www.ibm.com/contact/us/en/?lnk=flg-cont-usen
-  data: |
-    The IBM Watson data usage and privacy policy is described here:
-    https://www.ibm.com/watson/data-privacy/
+  input: []
+  output: []
+  heartbeat: unknown
+  caching_interval: unknown
+  data_integration: unknown
 
   
