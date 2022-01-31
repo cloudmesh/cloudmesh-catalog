@@ -17,8 +17,9 @@ class CatalogCommand(PluginCommand):
           Usage:
                 catalog list
                 catalog init --directory=DIR
-                catalog query --name=NAME
+                catalog query QUERY
                 catalog table --attributes=ATTRIBUTES
+                catalog print --format=FORMAT
                 catalog start
                 catalog stop
                 catalog status
@@ -41,7 +42,7 @@ class CatalogCommand(PluginCommand):
             catalog init --directory=DIR
                 initializes the catalag from a directory
 
-            catalog query --name=NAME
+            catalog query QUERY
                 queries the catalog by a named entry. This is just a preliminary
                 function and needs to be improved. YAMLDB provides a much better query.
 
@@ -58,28 +59,41 @@ class CatalogCommand(PluginCommand):
                 returns the status of the service
 
         """
-
-
-        # arguments.FILE = arguments['--file'] or None
-
         map_parameters(arguments,
                        "directory",
-                       "name",
                        "attributes")
-      
+        # format can not be maped into a dict as reserved word use
+        # arguments["--format"] instead
 
         VERBOSE(arguments)
 
-        if arguments.query:
-            print(arguments.name)
+        if arguments["list"]:
+            print("list")
 
-        elif arguments["list"]:
-            print("option b")
-            
+        elif argumments.init:
+            print("init")
+
+        elif arguments.query:
+            print("query")
+
         elif arguments.table:
             attributes = split(arguments.attributes,",")
             print(attributes)
             catalog = Catalog()
             print(Printer.write(catalog.data,header=attributes))
+
+        elif arguments["--format"]:
+            kind = arguments["--format"]
+
+            print (kind)
+
+        elif arguments.start:
+            print("query")
+
+        elif arguments.stop:
+            print("query")
+
+        elif arguments.status:
+            print("status")
 
         return ""
