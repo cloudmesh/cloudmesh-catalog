@@ -5,6 +5,7 @@ from cloudmesh.common.util import path_expand
 from pprint import pprint
 from cloudmesh.common.debug import VERBOSE
 from cloudmesh.shell.command import map_parameters
+from cloudmesh.catalog.server import CatalogServer
 
 class CatalogCommand(PluginCommand):
 
@@ -70,7 +71,7 @@ class CatalogCommand(PluginCommand):
         if arguments["list"]:
             print("list")
 
-        elif argumments.init:
+        elif arguments.init:
             print("init")
 
         elif arguments.query:
@@ -88,7 +89,9 @@ class CatalogCommand(PluginCommand):
             print (kind)
 
         elif arguments.start:
-            print("query")
+            print("start")
+            catalog = CatalogServer("catalog")
+            catalog.start()
 
         elif arguments.stop:
             print("query")
