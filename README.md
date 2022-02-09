@@ -51,6 +51,7 @@ also be convertable to markdown which is used by hugo.
    $ cd cm
    $ pip install cloudmesh-installer
    $ cloudmesh-installer -ssh install cms
+   $ cms hel
    ```
    This will download all source code for the cloudmesh shell
    and compile from source.
