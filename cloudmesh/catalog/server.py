@@ -3,6 +3,8 @@ from cloudmesh.common.Shell import Shell
 
 class Catalog:
 
+    # r = cloudmesh.common.SHell.run("uvicrn .... ")
+    
     def __init__(self, name):
         print("init")
         #if dir does not exists
