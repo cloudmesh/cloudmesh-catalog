@@ -17,10 +17,10 @@ async def get_name(name):
 
 class Catalog(PickleableMixin):
     def __init__(self, directory):
-        self.directory = directory # string (i.e., 'data/')
-        self.data = {} # dictionary
-        self.load(directory) # loads self.data using yaml files in the given directory
-        
+        self.directory = directory  # string (i.e., 'data/')
+        self.data = {}  # dictionary
+        self.load(directory)  # loads self.data using yaml files in the given directory
+
     # takes a query in the form {'name': name}, i.e. {'name': 'Amazon Comprehend'}
     # search : dict
     def query(self, search):
@@ -38,14 +38,14 @@ class Catalog(PickleableMixin):
                 parsed_yaml = yaml.safe_load(stream)
             except yaml.YAMLError as exc:
                 print(exc)
-        self.data.update(parsed_yaml) # update self.data with data from new file
+        self.data.update(parsed_yaml)  # update self.data with data from new file
 
     # loads self.data using yaml files in the given directory
     # directory : string (i.e., 'data/')
     def load(self, directory=None):
         if directory is None:
             directory = self.directory
-        files = glob.glob(directory + '*.yaml') # gets list of yaml files in given directory
+        files = glob.glob(directory + '*.yaml')  # gets list of yaml files in given directory
         for file in files:
             self.add(file)
 
@@ -104,9 +104,8 @@ class CatalogEntry():
 
 # FOR TESTING
 if __name__ == "__main__":
-
     catalog = Catalog('data/catalog/')
-    #print(cat.data)
+    # print(cat.data)
 
     query_result = catalog.query({'name': 'Amazon Comprehend'})
     print(query_result)
