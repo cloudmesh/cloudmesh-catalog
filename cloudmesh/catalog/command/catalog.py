@@ -73,6 +73,11 @@ class CatalogCommand(PluginCommand):
             # BUG: not implemented
 
         elif arguments.init:
+            # requires the catalog server and the location of a named
+            # catalog in ~/.cloudmesh/catalog/{name}
+            # so if we find one we could cerate some default and use that catalog
+            # as default and if no name is specified we use that
+            # this is to be implemented in the init function
             raise NotImplementedError
             # BUG: not implemented
 
