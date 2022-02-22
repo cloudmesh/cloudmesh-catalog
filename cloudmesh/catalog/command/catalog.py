@@ -17,15 +17,16 @@ class CatalogCommand(PluginCommand):
 
           Usage:
                 catalog list
-                catalog init --directory=DIR
-                catalog query QUERY
-                catalog table --attributes=ATTRIBUTES
-                catalog print --format=FORMAT
-                catalog start
-                catalog stop
-                catalog status
+                catalog default --name=NAME
+                catalog init  DIR [--name=NAME] [--port=PORT] [--docker]
+                catalog query QUERY [--name=NAME]
+                catalog table --attributes=ATTRIBUTES [--name=NAME]
+                catalog print --format=FORMAT [--name=NAME]
+                catalog start [--docker] [--name=NAME]
+                catalog stop [--docker] [--name=NAME]
+                catalog status [--docker] [--name=NAME]
 
-          This command does some useful things.
+          This command manages the catalog service.
 
           Arguments:
               DIR   the directory path containing the entries
@@ -38,9 +39,60 @@ class CatalogCommand(PluginCommand):
           Description:
 
             catalog list
-              lists the content of the catalog
+              lists all available catalog services. There could be multiple
+              catalog services
 
-            catalog init --directory=DIR
+            catalog default --name=NAME
+              sets the default catalog server to the given name.
+              The names of all services is stored in a yaml file at
+              ~/.cloudmesh/catalog.services.yaml
+
+              cloudmesh:
+                catalog:
+                  - name: my-service-a
+                    mode: native
+                    port: 10000
+                  - name: my-service-a
+                    mode: docker
+                    port: 10001
+
+            catalog init  DIR [--name=NAME] [--port=PORT] [--docker]
+
+                This command initializes a given catalog service, while using the
+                directory DIR as a content dir for the entries.
+                The dir can have multiple subdirectories for better organization.
+                Each subdirectory name is automatically a "tag" in the entry.
+                Note that it will be added to any tag that is in the entry. If
+                the tag is already in the entry it will be ignored.
+
+                The name is the name of the catalog to identify it in case
+                multiple catalogs exist
+
+                The port is the port number. The number is identified from the catalog list and is the next
+                available port if it is not already used. If no prior catalog service with a port exists
+                the port 40000 will be used
+
+                If the docker flag is specified the catalog willl not be started natively, but in a
+                docker container. uid and gid will be automatically vorwarded to the container, so data cahnges are
+                conducted with the host user.
+
+                If the image is not existand, a docker container will be started. The Dockerfile is located in the code
+                base and dynamically retrieved from the pip installed package in
+                cloudmesh/catalog/Dockerfile
+
+
+            catalog query QUERY [--name=NAME]
+              TBD
+
+            catalog print [--catalog=CATALOGS] [--attributes=ATTRIBUTES] [--format=FORMAT] [--name=NAME]
+                prints all entries of the given catalogs.
+
+            catalog start [--docker] [--name=NAME]
+            catalog stop [--docker] [--name=NAME]
+            catalog status [--docker] [--name=NAME]
+
+
+            catalog init DIR
                 initializes the catalag from a directory
 
             catalog query QUERY
@@ -62,7 +114,8 @@ class CatalogCommand(PluginCommand):
         """
         map_parameters(arguments,
                        "directory",
-                       "attributes")
+                       "attributes",
+                       "docker")
         # format can not be maped into a dict as reserved word use
         # arguments["--format"] instead
 
