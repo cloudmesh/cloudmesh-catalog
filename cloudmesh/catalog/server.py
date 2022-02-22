@@ -24,16 +24,20 @@ class CatalogServer:
 
     def stop(self):
         print("stop")
+        # BUG: not implemented
+        raise NotImplementedError
 
     def status(self):
         print("status")
+        # BUG: not implemented
+        raise NotImplementedError
 
-    def print(self, kind="table", data=None):
+    def print(self, kind="yaml", data=None):
         print ("print", kind)
-        # use cloud mesh Printer.write(data, ....)
         # which has kind for json, yaml, table
+        # BUG: not implemented
+        # table_str = Printer.write(data, output=kind) # or similar
+        # print (table_str)
+        # Q: maybe we should jus use "json" and yaml as outout format
+        raise NotImplementedError
 
-    def table(self):
-        print ("table")
-        data = [] # get from fastapi service
-        self.print(kind="table", data=data)
