@@ -80,36 +80,32 @@ class CatalogCommand(PluginCommand):
                 base and dynamically retrieved from the pip installed package in
                 cloudmesh/catalog/Dockerfile
 
-
-            catalog query QUERY [--name=NAME]
-              TBD
+            catalog query QUERY [--name=NAME...]
+              issues a querry to the given catalog services. If the name is ommitted the default service is used
+              The query is formulated using https://jmespath.org/tutorial.html
 
             catalog print [--catalog=CATALOGS] [--attributes=ATTRIBUTES] [--format=FORMAT] [--name=NAME]
-                prints all entries of the given catalogs.
+                prints all entries of the given catalogs. With attributs you can select a number of attribtes.
+                If the attributes ae nested a . notation can be used
+                The format is by default table, but can also set to json, yaml, csv
 
-            catalog start [--docker] [--name=NAME]
-            catalog stop [--docker] [--name=NAME]
+            catalog start [--docker] [--name=NAME...]
+                This command starts the services. If docker is used the service is started
+                as container. The name specifies the service so multiple services can be started
+                If the name is omited the default container is used. If only one service is specified
+                this is the default
+
+            catalog stop [--docker] [--name=NAME...]
+                This command stops the services. If docker is used the service is stopped
+                as container. The name specifies the service so multiple services can be started
+                If the name is omited the default container is used. If only one service is specified
+                this is the default
+
             catalog status [--docker] [--name=NAME]
-
-
-            catalog init DIR
-                initializes the catalag from a directory
-
-            catalog query QUERY
-                queries the catalog by a named entry. This is just a preliminary
-                function and needs to be improved. YAMLDB provides a much better query.
-
-            catalog table --attributes=ATTRIBUTES
-                prints the content of the catalog in table form
-
-            catalog start --port=PORT
-                starts the catalog service
-
-            catalog stop
-                stops the catalog service
-
-            catalog status
-                returns the status of the service
+                This command gets that status of the services. If docker is used the service is stopped
+                as container. The name specifies the service so multiple services can be started
+                If the name is omited the default container is used. If only one service is specified
+                this is the default
 
         """
         map_parameters(arguments,
