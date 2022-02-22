@@ -5,6 +5,18 @@ from fastapi import FastAPI
 
 from pickleable_mixin import PickleableMixin
 
+# BUG: this is not a stand alone prg
+# BUG: needs to use yamldb instead of pickle
+# BUG: needs to read form defined relative directory for data
+#    find data from source deployment while looking for cloudmesh/catalog/data
+# BUG: the data directory is in home dire and therfore could be overwritten, we need to moe likely elsewhere
+# BUG: the version is hardcoded
+# BUG: the initializer of where the data dire is is incorrect, it requires this to be
+#      started from dir in which data dir is
+# BUG: if yamldb can be used its much more comfortable
+# Option:       alternatively we could use containers and Mongo db or something like that
+# BUG: if name must be removed
+
 app = FastAPI()
 
 
