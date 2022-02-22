@@ -70,7 +70,7 @@ class CatalogCommand(PluginCommand):
 
         if arguments["list"]:
             raise NotImplementedError
-            # BUG: not implemented
+            # TODO: not implemented
 
         elif arguments.init:
             # requires the catalog server and the location of a named
@@ -79,22 +79,22 @@ class CatalogCommand(PluginCommand):
             # as default and if no name is specified we use that
             # this is to be implemented in the init function
             raise NotImplementedError
-            # BUG: not implemented
+            # TODO: not implemented
 
         elif arguments.query:
             raise NotImplementedError
-            # BUG: not implemented
+            # TODO: not implemented
 
         elif arguments.table:
             attributes = split(arguments.attributes,",")
             print(attributes)
-            # BUG Catalog not imported
+            # TODO Catalog not imported
             catalog = Catalog()
             print(Printer.write(catalog.data,header=attributes))
 
         elif arguments["--format"]:
             kind = arguments["--format"]
-            # BUG not implemented
+            # TODO not implemented
             print (kind)
             raise NotImplementedError
 
@@ -106,11 +106,11 @@ class CatalogCommand(PluginCommand):
         elif arguments.stop:
             print("stop")
             raise NotImplementedError
-            # BUG: not implemented
+            # TODO: not implemented
 
         elif arguments.status:
             print("status")
             raise NotImplementedError
-            # BUG: not implemented
+            # TODO: not implemented
 
         return ""

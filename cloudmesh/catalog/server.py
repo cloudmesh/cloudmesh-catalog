@@ -24,18 +24,18 @@ class CatalogServer:
 
     def stop(self):
         print("stop")
-        # BUG: not implemented
+        # TODO: not implemented
         raise NotImplementedError
 
     def status(self):
         print("status")
-        # BUG: not implemented
+        # TODO: not implemented
         raise NotImplementedError
 
     def print(self, kind="yaml", data=None):
         print ("print", kind)
         # which has kind for json, yaml, table
-        # BUG: not implemented
+        # TODO: not implemented
         # table_str = Printer.write(data, output=kind) # or similar
         # print (table_str)
         # Q: maybe we should jus use "json" and yaml as outout format
