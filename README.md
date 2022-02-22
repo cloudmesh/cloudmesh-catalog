@@ -51,6 +51,7 @@ also be convertable to markdown which is used by hugo.
    $ cd cm
    $ pip install cloudmesh-installer
    $ cloudmesh-installer -ssh install cms
+   $ cms help
    ```
    This will download all source code for the cloudmesh shell
    and compile from source.
@@ -182,5 +183,3 @@ which may add extra line breaks that split some urls unintentionally.
 
 BUG: verify if the markdown is the markdown used by hugo, we may
 support multiple markdown formats.
-
-

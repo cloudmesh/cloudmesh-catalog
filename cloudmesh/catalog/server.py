@@ -1,8 +1,11 @@
 from cloudmesh.common.util import readfile, writefile
 from cloudmesh.common.Shell import Shell
+import os
 
-class Catalog:
+class CatalogServer:
 
+    # r = cloudmesh.common.SHell.run("uvicrn .... ")
+    
     def __init__(self, name):
         print("init")
         #if dir does not exists
@@ -13,10 +16,11 @@ class Catalog:
         # if file is missing. If so we may not need a file
         # at all which his better
         pid = "1" # TBD
-        writefile(f"~/.cloudmesh/catalog/{name.pid}", str(pid))
+        writefile(f"~/.cloudmesh/catalog/{name}.pid", str(pid))
 
     def start(self):
         print("start")
+        os.system("uvicorn server-fastapi:app --reload")
 
     def stop(self):
         print("stop")
