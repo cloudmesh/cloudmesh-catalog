@@ -1,8 +1,7 @@
 from dataclasses import dataclass, field
-import pickle
 from fastapi import FastAPI
 
-from pickleable_mixin import PickleableMixin
+from cloudmesh.catalog.deprecated.pickleable_mixin import PickleableMixin
 
 app = FastAPI()
 

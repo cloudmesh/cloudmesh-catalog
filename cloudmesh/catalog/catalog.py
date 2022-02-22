@@ -3,7 +3,7 @@ import glob
 import yaml
 from fastapi import FastAPI
 
-from pickleable_mixin import PickleableMixin
+from cloudmesh.catalog.deprecated.pickleable_mixin import PickleableMixin
 
 # TODO: this is not a stand alone prg
 # TODO: needs to use yamldb instead of pickle
@@ -19,6 +19,10 @@ from pickleable_mixin import PickleableMixin
 
 app = FastAPI()
 
+catalog_api_version = "1.0"
+catalog_api_base = f"/cloudmesh/{catalog_api_version}/catalog/"
+
+# TODO: is there a way to just set the base url and than all following urls are specified without the baseURL
 
 @app.get("/cloudmesh/v1-0/catalog/{name}")
 async def get_name(name):

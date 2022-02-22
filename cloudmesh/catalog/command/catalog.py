@@ -25,6 +25,8 @@ class CatalogCommand(PluginCommand):
                 catalog start [--docker] [--name=NAME]
                 catalog stop [--docker] [--name=NAME]
                 catalog status [--docker] [--name=NAME]
+                catalog copy [--docker] --name=NAME] [--source=URL...]
+                catalog federate [--docker] --name=NAME] [--source=URL...]
 
           This command manages the catalog service.
 
@@ -107,6 +109,18 @@ class CatalogCommand(PluginCommand):
                 If the name is omited the default container is used. If only one service is specified
                 this is the default
 
+            catalog copy [--docker] --name=NAME] [--source=URL...]
+                This command copies the contents from all catalogs specified by the
+                source urls. Please note that the URLs are of teh form host:port
+
+            catalog federate [--cache] [--ttl=TTL] [--docker] --name=NAME] [--source=URL...]
+                This command federates the contents from all catalogs specified by the
+                source urls. Please note that the URLs are of teh form host:port.
+                When the federation service is queried, parallel queries will be issued to
+                all sources and the query result will be reduced to a single result.
+                whne the cache option is specified the result will be cached and the next
+                time the query is asked it will use also the cached result. A time to live
+                is specified to asure the cached result will be deleted after the ttl is expired.
         """
         map_parameters(arguments,
                        "directory",
