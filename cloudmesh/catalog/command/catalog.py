@@ -69,24 +69,29 @@ class CatalogCommand(PluginCommand):
         VERBOSE(arguments)
 
         if arguments["list"]:
-            print("list")
+            raise NotImplementedError
+            # BUG: not implemented
 
         elif arguments.init:
-            print("init")
+            raise NotImplementedError
+            # BUG: not implemented
 
         elif arguments.query:
-            print("query")
+            raise NotImplementedError
+            # BUG: not implemented
 
         elif arguments.table:
             attributes = split(arguments.attributes,",")
             print(attributes)
+            # BUG Catalog not imported
             catalog = Catalog()
             print(Printer.write(catalog.data,header=attributes))
 
         elif arguments["--format"]:
             kind = arguments["--format"]
-
+            # BUG not implemented
             print (kind)
+            raise NotImplementedError
 
         elif arguments.start:
             print("start")
@@ -94,9 +99,13 @@ class CatalogCommand(PluginCommand):
             catalog.start()
 
         elif arguments.stop:
-            print("query")
+            print("stop")
+            raise NotImplementedError
+            # BUG: not implemented
 
         elif arguments.status:
             print("status")
+            raise NotImplementedError
+            # BUG: not implemented
 
         return ""
