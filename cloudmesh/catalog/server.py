@@ -19,16 +19,16 @@ class CatalogServer:
         writefile(f"~/.cloudmesh/catalog/{name}.pid", str(pid))
 
     def start(self):
+        # TODO: see manual where to get port and name. This is not completed
+        # we want to initialize with 127.0.0.1 so that only localhost can connect for now
         print("start")
         os.system("uvicorn server-fastapi:app --reload")
 
     def stop(self):
-        print("stop")
-        # TODO: not implemented
+        # TODO: not implemented, get the pid and use that by name
         raise NotImplementedError
 
     def status(self):
-        print("status")
         # TODO: not implemented
         raise NotImplementedError
 
