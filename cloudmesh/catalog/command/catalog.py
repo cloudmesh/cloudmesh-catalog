@@ -27,6 +27,7 @@ class CatalogCommand(PluginCommand):
                 catalog status [--docker] [--name=NAME]
                 catalog copy [--docker] --name=NAME] [--source=URL...]
                 catalog federate [--docker] --name=NAME] [--source=URL...]
+                catalog load [--docker] --name=NAME] [--source=URL...]
 
           This command manages the catalog service.
 
@@ -112,6 +113,9 @@ class CatalogCommand(PluginCommand):
             catalog copy [--docker] --name=NAME] [--source=URL...]
                 This command copies the contents from all catalogs specified by the
                 source urls. Please note that the URLs are of teh form host:port
+                However it can also load data from a file or directory when specified as
+                file://path. Relative path can be specified as file::../data
+
 
             catalog federate [--cache] [--ttl=TTL] [--docker] --name=NAME] [--source=URL...]
                 This command federates the contents from all catalogs specified by the
@@ -121,6 +125,12 @@ class CatalogCommand(PluginCommand):
                 whne the cache option is specified the result will be cached and the next
                 time the query is asked it will use also the cached result. A time to live
                 is specified to asure the cached result will be deleted after the ttl is expired.
+
+            catalog load [--docker] --name=NAME] [--source=DIR...]
+                In contrast to the copy command, the LOAD command reads the data from
+                directories or files and not from URLs
+                However, copy can also do file://path
+
         """
         map_parameters(arguments,
                        "directory",
