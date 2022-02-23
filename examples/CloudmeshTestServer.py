@@ -3,10 +3,15 @@
 # curl  http://localhost:8127
 
 
-from yamldb.YamlDB import YamlDB
+import glob
+
 import uvicorn
+import yaml
 from fastapi import FastAPI
 
+from cloudmesh.common.util import path_expand
+from cloudmesh.common.util import readfile
+from yamldb.YamlDB import YamlDB
 
 filename = "test.yaml"
 
@@ -25,15 +30,29 @@ def read_item(name: str):
         name: result
     }
 
-def setup_db():
+@app.get("/item")
+def read_items():
     global db
-    db = YamlDB(filename="./test.yml")
-    for i in ["a", "b", "c"]:
-        db[i] = f"vaue  of {i}"
-    db.save()
+    result = db.yaml()
+    return result
 
-setup_db()
 
+#def setup_db():
+#    global db
+#    db = YamlDB(filename="./test.yml")
+#    for i in ["a", "b", "c"]:
+#        db[i] = f"value  of {i}"
+#    db.save()
+#setup_db()
+
+def load(directory="./data/catalog"):
+    filenames = glob.glob(path_expand(directory))
+    for name in filenames:
+        print(f"Loading: {name}")
+        data = yaml.safe_load(readfile(name).strip())
+        db[name] = data
+
+load(directory="./data/catalog/*.yaml")
 
 def start_server():
     uvicorn.run("CloudmeshTestServer:app",
@@ -44,3 +63,4 @@ def start_server():
 
 if __name__ == '__main__':
     start_server()
+    pass
