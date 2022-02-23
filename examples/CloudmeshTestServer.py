@@ -57,13 +57,13 @@ def load(directory="./data/catalog"):
 load(directory="./data/catalog/*.yaml")
 
 def start_server():
-    uvicorn.run("CloudmeshTestServer:app",
+    r = uvicorn.run("CloudmeshTestServer:app",
                 host='127.0.0.1',
                 port=8127,
-                workers=2,
+                workers=1,
                 reload=True
                 )
-
+    print ("RRRR", r)
 
 if __name__ == '__main__':
     start_server()
