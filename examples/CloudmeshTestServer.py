@@ -20,7 +20,7 @@ app = FastAPI(title='CloudmeshCatalog')
 
 @app.get("/")
 def read_root():
-    return {"Hello": "Cloudmesh Catalog"}
+    return {"Message": "Cloudmesh Catalog"}
 
 @app.get("/item/{name}")
 def read_item(name: str):
@@ -46,6 +46,8 @@ def read_items():
 #setup_db()
 
 def load(directory="./data/catalog"):
+    global db
+    db = YamlDB(filename="./test.yml")
     filenames = glob.glob(path_expand(directory))
     for name in filenames:
         print(f"Loading: {name}")
@@ -58,7 +60,9 @@ def start_server():
     uvicorn.run("CloudmeshTestServer:app",
                 host='127.0.0.1',
                 port=8127,
-                workers=2)
+                workers=2,
+                reload=True
+                )
 
 
 if __name__ == '__main__':

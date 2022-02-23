@@ -17,3 +17,5 @@
 leverage 
 https://github.com/cloudmesh/cloudmesh-openapi/blob/main/cloudmesh/openapi/function/server.py
 we want tnot to use flask but fastapi
+
+https://stackoverflow.com/questions/57412825/how-to-start-a-uvicorn-fastapi-in-background-when-testing-with-pytest
