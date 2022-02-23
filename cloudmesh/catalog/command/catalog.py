@@ -1,4 +1,5 @@
 from cloudmesh.catalog.manager import ServiceManager
+from cloudmesh.catalog.convert import Convert
 from cloudmesh.common.debug import VERBOSE
 from cloudmesh.shell.command import PluginCommand
 from cloudmesh.shell.command import command
@@ -27,6 +28,9 @@ class CatalogCommand(PluginCommand):
                 catalog copy [--docker] [--name=NAME] [--source=URL]
                 catalog federate [--docker] [--name=NAME] [--source=URL]
                 catalog load [--docker] [--name=NAME] [--source=URL]
+                catalog export bibtex [--name=NAME] [--source=SOURCE] [--destination=DESTINATION]
+                catalog export md [--name=NAME]  [--source=SOURCE] [--destination=DESTINATION]
+                catalog export [hugo] md [--name=NAME]  [--source=SOURCE] [--destination=DESTINATION]
 
           This command manages the catalog service.
 
@@ -34,7 +38,7 @@ class CatalogCommand(PluginCommand):
               DIR   the directory path containing the entries
 
           Options:
-              --docker      docker
+              --docker     docker
               --name=NAME  the name of the entry
               --port=PORT  the port
 
@@ -124,32 +128,72 @@ class CatalogCommand(PluginCommand):
                 is specified to asure the cached result will be deleted after the ttl is expired.
 
             catalog load [--docker] [--name=NAME] [--source=URL]
-
-        """
-        a = "dummy"
-
-        """
-
-
-
-
-            catalog status [--docker] [--name=NAME]
-
-            catalog copy [--docker] [--name=NAME] [--source=URL...]
-
-
-            catalog federate [--cache] [--ttl=TTL] [--docker] [--name=NAME] [--source=URL...]
-
-            catalog load [--docker] [--name=NAME] [--source=DIR...]
                 In contrast to the copy command, the LOAD command reads the data from
                 directories or files and not from URLs
                 However, copy can also do file://path
+
+            catalog export bibtex [--name=NAME] [--destination=DESTINATION]
+                Exports the information from the catalog as a single bibtex file
+                If a name is specified only the named entries are exported.
+                The format of the entries will be
+
+                > @misc{id,
+                >   author={the author field of the entry},
+                >   title={the title of the entry},
+                >   abstract={the description of the entry},
+                >   url={the url of the entry},
+                >   howpublished={Wb Page},
+                >   month={the month of the date the entry was created},
+                >   year={the year of the date when the entry was created}
+                > }
+
+            catalog export md [--name=NAME] [--destination=DESTINATION]
+                Exports the information from the catalog as a directory tree
+                equivalent to the original.
+                If a name is specified only the named entries are exported.
+                The format of the entries will be
+
+                > # {title}
+                >
+                > {author}
+                >
+                > ## Description
+                >
+                > {description}
+                >
+                > and so on
+
+            catalog export hugo md [--name=NAME] [--destination=DESTINATION]
+
+                Format of the entry
+
+                > ---
+                > title: "Running GPU Batch jobs on Rivanna"
+                > linkTitle: "GPU@Rivanna"
+                > author: {author of the technology}
+                > date: 2017-01-05
+                > weight: 4
+                > description: >
+                >   Short Description of the entry
+                > ---
+                >
+                > {{% pageinfo %}}
+                > Short description from the entry
+                > {{% /pageinfo %}}
+                > ## Description
+                >
+                > {description}
+                >
+                > and so on
 
         """
         map_parameters(arguments,
                        "directory",
                        "attributes",
-                       "docker")
+                       "docker",
+                       "name",
+                       "source"
+                       "desctination")
         # format can not be maped into a dict as reserved word use
         # arguments["--format"] instead
 
@@ -201,5 +245,37 @@ class CatalogCommand(PluginCommand):
         elif arguments.info:
             service = ServiceManager()
             print(service.info())
+
+        elif arguments.bibtex:
+            # improve logic for name, source, destination if you can
+            name = arguments.name
+            source = arguments.source
+            destination = arguments.destination or source
+
+            convert = Convert()
+            result = convert.bibtex(name=name, source=source, destination=destination)
+            print(result)
+
+        elif arguments.hugo and arguments.md:
+            # improve logic for name, source, destination if you can
+
+            name = arguments.name
+            source = arguments.source
+            destination = arguments.destination or source
+
+            convert = Convert()
+            result = convert.hugo_md(name=name, source=source, destination=destination)
+            print (result)
+
+        elif arguments.md:
+            # improve logic for name, source, destination if you can
+
+            _name = arguments.name
+            _source = arguments.source
+            _destination = arguments.destination or _source
+
+            convert = Convert()
+            result = convert.md(name=_name, source=_source, destination=_destination)
+            print (result)
 
         return ""
