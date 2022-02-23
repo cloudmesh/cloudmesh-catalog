@@ -2,7 +2,8 @@ from dataclasses import dataclass, field
 import glob
 import yaml
 from fastapi import FastAPI
-
+from cloudmesh.common.util import path_expand
+from cloudmesh.catalog.database import DataBase
 from cloudmesh.catalog.deprecated.pickleable_mixin import PickleableMixin
 
 # TODO: this is not a stand alone prg
@@ -17,13 +18,14 @@ from cloudmesh.catalog.deprecated.pickleable_mixin import PickleableMixin
 # Option:       alternatively we could use containers and Mongo db or something like that
 # TODO: if name must be removed
 
-app = FastAPI()
-
 catalog_api_version = "1.0"
 catalog_api_base = f"/cloudmesh/{catalog_api_version}/catalog/"
 
 # TODO: is there a way to just set the base url and than all following urls are specified without the baseURL
 
+#
+# TODO: why is his not in the class?
+#
 @app.get("/cloudmesh/v1-0/catalog/{name}")
 async def get_name(name):
     catalog = Catalog('data/')
@@ -31,30 +33,49 @@ async def get_name(name):
     return entry
 
 
-class Catalog(PickleableMixin):
+class Catalog():
+    def server(self):
+        self.app  = FastAPI()
+
     def __init__(self, directory):
-        self.directory = directory  # string (i.e., 'data/')
-        self.data = {}  # dictionary
-        self.load(directory)  # loads self.data using yaml files in the given directory
+        raise NotImplementedError
+        # TODO: WE SHOUlD JUST USE dATAbASE AND MAKE SURE WE FIX THAT CLASS
+
+        #self.directory = directory  # string (i.e., 'data/')
+        #self.data = {}  # dictionary
+        #self.load(directory)  # loads self.data using yaml files in the given directory
 
     # takes a query in the form {'name': name}, i.e. {'name': 'Amazon Comprehend'}
     # search : dict
     def query(self, search):
-        if 'name' in search.keys():
-            for entry in self.data:
-                if self.data[entry]['name'] == search['name']:
-                    return self.data[entry]
+        """
+        Conducs a query using jmsepath
+
+        :param search:
+        :type search:
+        :return:
+        :rtype:
+        """
+        raise NotImplementedError
         return None
 
-    # adds a yaml file to this catalog's self.data 
-    # file : string (i.e., 'data/amazon_comprehend.yaml')
     def add(self, file):
+        """
+        # adds a yaml file to this catalog's self.data
+
+        :param file: The filename.  EXAMPLE '~/data/amazon_comprehend.yaml'
+        :type file: str
+        :return: returns true if the upload was successful
+        :rtype: boolen
+        """
+        file = path_expand(file)
         with open(file, "r") as stream:
             try:
                 parsed_yaml = yaml.safe_load(stream)
             except yaml.YAMLError as exc:
                 print(exc)
         self.data.update(parsed_yaml)  # update self.data with data from new file
+        raise NotImplementedError
 
     # loads self.data using yaml files in the given directory
     # directory : string (i.e., 'data/')
@@ -119,9 +140,9 @@ class CatalogEntry():
 
 
 # FOR TESTING
-if __name__ == "__main__":
-    catalog = Catalog('data/catalog/')
-    # print(cat.data)
-
-    query_result = catalog.query({'name': 'Amazon Comprehend'})
-    print(query_result)
+#if __name__ == "__main__":
+#    catalog = Catalog('data/catalog/')
+#    # print(cat.data)
+#
+#    query_result = catalog.query({'name': 'Amazon Comprehend'})
+#    print(query_result)
