@@ -40,6 +40,8 @@ Keep in mind:
   * (todo) Some comments about somone shifting task and not doing AWS.
     * Need to add AWS as musch more important
     * Here the must haves: AWS, Azure, Google, Oracle
+      <https://github.com/laszewsk/nist/tree/main/catalogue_info/google>
+      <https://github.com/laszewsk/nist/tree/main/catalogue_info/oracle_ai_services>
     * After these are done we can do others
     * Clarify what scraping means ... could be copy paste and then write prg 
     * around what you copied paste, but we need alwayd link from where you copied.
