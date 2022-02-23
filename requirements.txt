@@ -9,3 +9,5 @@ cloudmesh-configuration
 #    pip-compile setup.py
 #
 yamldb
+fastapi
+uvcorn

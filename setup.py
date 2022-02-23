@@ -33,6 +33,8 @@ cloudmesh-sys
 cloudmesh-inventory
 cloudmesh-configuration
 yamldb
+fastapi
+uvcorn
 """.split("\n")
 
 # dependency_links = ['http://github.com/nicolaiarocci/eve.git@develop']

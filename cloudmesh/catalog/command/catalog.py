@@ -4,8 +4,9 @@ from cloudmesh.common.console import Console
 from cloudmesh.common.util import path_expand
 from pprint import pprint
 from cloudmesh.common.debug import VERBOSE
+from cloudmesh.common.Printer import Printer
 from cloudmesh.shell.command import map_parameters
-from cloudmesh.catalog.server import CatalogServer
+from cloudmesh.catalog.manager import ServiceManager
 
 class CatalogCommand(PluginCommand):
 
@@ -16,28 +17,29 @@ class CatalogCommand(PluginCommand):
         ::
 
           Usage:
-                catalog list
-                catalog default --name=NAME
-                catalog init  DIR [--name=NAME] [--port=PORT] [--docker]
-                catalog query QUERY [--name=NAME]
-                catalog table --attributes=ATTRIBUTES [--name=NAME]
-                catalog print --format=FORMAT [--name=NAME]
+                catalog info
                 catalog start [--docker] [--name=NAME]
                 catalog stop [--docker] [--name=NAME]
                 catalog status [--docker] [--name=NAME]
-                catalog copy [--docker] --name=NAME] [--source=URL...]
-                catalog federate [--docker] --name=NAME] [--source=URL...]
-                catalog load [--docker] --name=NAME] [--source=URL...]
+                catalog list
+                catalog default [--name=NAME]
+                catalog init  DIR [--name=NAME] [--port=PORT] [--docker]
+                catalog query QUERY [--name=NAME]
+                catalog table --attributes=ATTRIBUTES [--name=NAME]
+                catalog print [--format=FORMAT] [--name=NAME]
+                catalog copy [--docker] [--name=NAME] [--source=URL]
+                catalog federate [--docker] [--name=NAME] [--source=URL]
+                catalog load [--docker] [--name=NAME] [--source=URL]
 
           This command manages the catalog service.
 
           Arguments:
               DIR   the directory path containing the entries
-              NAME  the name of the entry
-              ATTRIBUTES  string with commas i.e. 'id,name'
 
           Options:
-              --f      specify the file
+              --docker      docker
+              --name=NAME  the name of the entry
+              --port=PORT  the port
 
           Description:
 
@@ -45,22 +47,21 @@ class CatalogCommand(PluginCommand):
               lists all available catalog services. There could be multiple
               catalog services
 
-            catalog default --name=NAME
+            catalog default [--name=NAME]
               sets the default catalog server to the given name.
               The names of all services is stored in a yaml file at
               ~/.cloudmesh/catalog.services.yaml
 
-              cloudmesh:
-                catalog:
-                  - name: my-service-a
-                    mode: native
-                    port: 10000
-                  - name: my-service-a
-                    mode: docker
-                    port: 10001
+              > cloudmesh:
+              >  catalog:
+              >    - name: my-service-a
+              >      mode: native
+              >      port: 10000
+              >    - name: my-service-a
+              >      mode: docker
+              >      port: 10001
 
             catalog init  DIR [--name=NAME] [--port=PORT] [--docker]
-
                 This command initializes a given catalog service, while using the
                 directory DIR as a content dir for the entries.
                 The dir can have multiple subdirectories for better organization.
@@ -83,22 +84,22 @@ class CatalogCommand(PluginCommand):
                 base and dynamically retrieved from the pip installed package in
                 cloudmesh/catalog/Dockerfile
 
-            catalog query QUERY [--name=NAME...]
+            catalog query QUERY [--name=NAME]
               issues a querry to the given catalog services. If the name is ommitted the default service is used
               The query is formulated using https://jmespath.org/tutorial.html
 
-            catalog print [--catalog=CATALOGS] [--attributes=ATTRIBUTES] [--format=FORMAT] [--name=NAME]
+            catalog print [--format=FORMAT] [--name=NAME]
                 prints all entries of the given catalogs. With attributs you can select a number of attribtes.
                 If the attributes ae nested a . notation can be used
                 The format is by default table, but can also set to json, yaml, csv
 
-            catalog start [--docker] [--name=NAME...]
+            catalog start [--docker] [--name=NAME]
                 This command starts the services. If docker is used the service is started
                 as container. The name specifies the service so multiple services can be started
                 If the name is omited the default container is used. If only one service is specified
                 this is the default
 
-            catalog stop [--docker] [--name=NAME...]
+            catalog stop [--docker] [--name=NAME]
                 This command stops the services. If docker is used the service is stopped
                 as container. The name specifies the service so multiple services can be started
                 If the name is omited the default container is used. If only one service is specified
@@ -110,14 +111,13 @@ class CatalogCommand(PluginCommand):
                 If the name is omited the default container is used. If only one service is specified
                 this is the default
 
-            catalog copy [--docker] --name=NAME] [--source=URL...]
+            catalog copy [--docker] [--name=NAME] [--source=URL]
                 This command copies the contents from all catalogs specified by the
                 source urls. Please note that the URLs are of teh form host:port
                 However it can also load data from a file or directory when specified as
                 file://path. Relative path can be specified as file::../data
 
-
-            catalog federate [--cache] [--ttl=TTL] [--docker] --name=NAME] [--source=URL...]
+            catalog federate [--docker] [--name=NAME] [--source=URL]
                 This command federates the contents from all catalogs specified by the
                 source urls. Please note that the URLs are of teh form host:port.
                 When the federation service is queried, parallel queries will be issued to
@@ -126,7 +126,24 @@ class CatalogCommand(PluginCommand):
                 time the query is asked it will use also the cached result. A time to live
                 is specified to asure the cached result will be deleted after the ttl is expired.
 
-            catalog load [--docker] --name=NAME] [--source=DIR...]
+            catalog load [--docker] [--name=NAME] [--source=URL]
+
+        """
+        a = "dummy"
+
+        """
+
+
+
+
+            catalog status [--docker] [--name=NAME]
+
+            catalog copy [--docker] [--name=NAME] [--source=URL...]
+
+
+            catalog federate [--cache] [--ttl=TTL] [--docker] [--name=NAME] [--source=URL...]
+
+            catalog load [--docker] [--name=NAME] [--source=DIR...]
                 In contrast to the copy command, the LOAD command reads the data from
                 directories or files and not from URLs
                 However, copy can also do file://path
@@ -159,11 +176,12 @@ class CatalogCommand(PluginCommand):
             # TODO: not implemented
 
         elif arguments.table:
-            attributes = split(arguments.attributes,",")
-            print(attributes)
+            #attributes = split(arguments.attributes,",")
+            #print(attributes)
             # TODO Catalog not imported
-            catalog = Catalog()
-            print(Printer.write(catalog.data,header=attributes))
+            #catalog = Catalog()
+            #print(Printer.write(catalog.data,header=attributes))
+            raise NotImplementedError
 
         elif arguments["--format"]:
             kind = arguments["--format"]
@@ -172,18 +190,20 @@ class CatalogCommand(PluginCommand):
             raise NotImplementedError
 
         elif arguments.start:
-            print("start")
-            catalog = CatalogServer("catalog")
-            catalog.start()
+            service = ServiceManager()
+            service.start()
 
         elif arguments.stop:
-            print("stop")
-            raise NotImplementedError
-            # TODO: not implemented
+            service = ServiceManager()
+            service.stop()
 
         elif arguments.status:
-            print("status")
-            raise NotImplementedError
-            # TODO: not implemented
+            service = ServiceManager()
+            print(service.status())
+
+        elif arguments.info:
+            service = ServiceManager()
+            print(service.info())
+
 
         return ""
