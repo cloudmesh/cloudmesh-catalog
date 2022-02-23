@@ -1,29 +1,15 @@
-import time
-from cloudmesh.common.console import Console
-from cloudmesh.common.util import readfile, writefile
-from cloudmesh.common.Shell import Shell
-from cloudmesh.common.util import path_expand
-
 import os
 
-"""
-nohup uvicorn myapp:app &
+from cloudmesh.common.Shell import Shell
+from cloudmesh.common.console import Console
+from cloudmesh.common.util import path_expand
+from cloudmesh.common.util import readfile
 
-#!/bin/bash
-source /home/project/myenv/bin/activate
-cd /home/project/server
-echo "" > nohup.out
-echo "Restarting FastAPI server"
-else
-echo "No such process. Starting new FastAPI server"
-fi
-nohup uvicorn myapp:app &"
-"""
 
 class ServiceManager:
 
     # r = cloudmesh.common.SHell.run("uvicrn .... ")
-    
+
     def __init__(self, name=None):
         """
 
@@ -37,7 +23,6 @@ class ServiceManager:
 
         Shell.mkdir(self.path)
 
-
     def start(self):
         """
 
@@ -47,10 +32,11 @@ class ServiceManager:
 
         name = f"{self.path}/{self.name}"
         os.system(f"rm -f {name}.pid")
-        command = f"nohup uvicorn cloudmesh.catalog.service:app --port={self.port} {self.reload}  > {name}.log 2>&1 & echo $! > {name}.pid"
-        print (command)
+        command = f"nohup uvicorn cloudmesh.catalog.service:app --port={self.port} {self.reload} "\
+                  "> {name}.log 2>&1 & echo $! > {name}.pid"
+        print(command)
         result = os.system(command)
-        print (result)
+        print(result)
         if result != 0:
             Console.error("The catalog server could not be started due to an error")
         try:
@@ -69,8 +55,8 @@ class ServiceManager:
         :rtype:
         """
         pid = None
-        #command = f"$(ps aux | grep 'uvicorn {self.name}' | grep -v grep | awk {'print $2'} | xargs)"
-        #pid = Shell.run(command).strip()
+        # command = f"$(ps aux | grep 'uvicorn {self.name}' | grep -v grep | awk {'print $2'} | xargs)"
+        # pid = Shell.run(command).strip()
         name = f"{self.path}/{self.name}"
         pid = readfile(f"{name}.pid").strip()
         return pid
@@ -85,7 +71,7 @@ class ServiceManager:
         pids = [info["pid"]] + info["children"]
         try:
             for pid in pids:
-                print(f"Killing: {pid}", end = "")
+                print(f"Killing: {pid}", end="")
                 result = Shell.run(f"kill -9 {pid}")
                 if "No such process" in result:
                     Console.red(". not found.")

@@ -1,12 +1,9 @@
-from cloudmesh.shell.command import command
-from cloudmesh.shell.command import PluginCommand
-from cloudmesh.common.console import Console
-from cloudmesh.common.util import path_expand
-from pprint import pprint
-from cloudmesh.common.debug import VERBOSE
-from cloudmesh.common.Printer import Printer
-from cloudmesh.shell.command import map_parameters
 from cloudmesh.catalog.manager import ServiceManager
+from cloudmesh.common.debug import VERBOSE
+from cloudmesh.shell.command import PluginCommand
+from cloudmesh.shell.command import command
+from cloudmesh.shell.command import map_parameters
+
 
 class CatalogCommand(PluginCommand):
 
@@ -176,17 +173,17 @@ class CatalogCommand(PluginCommand):
             # TODO: not implemented
 
         elif arguments.table:
-            #attributes = split(arguments.attributes,",")
-            #print(attributes)
+            # attributes = split(arguments.attributes,",")
+            # print(attributes)
             # TODO Catalog not imported
-            #catalog = Catalog()
-            #print(Printer.write(catalog.data,header=attributes))
+            # catalog = Catalog()
+            # print(Printer.write(catalog.data,header=attributes))
             raise NotImplementedError
 
         elif arguments["--format"]:
             kind = arguments["--format"]
             # TODO not implemented
-            print (kind)
+            print(kind)
             raise NotImplementedError
 
         elif arguments.start:
@@ -204,6 +201,5 @@ class CatalogCommand(PluginCommand):
         elif arguments.info:
             service = ServiceManager()
             print(service.info())
-
 
         return ""

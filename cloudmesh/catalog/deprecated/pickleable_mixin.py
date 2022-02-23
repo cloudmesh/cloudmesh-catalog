@@ -2,6 +2,7 @@
 
 import pickle
 
+
 # mixin to make a class pickleable
 class PickleableMixin:
     # saves instance of this class as a pickle file with specified filename in the current working directory    

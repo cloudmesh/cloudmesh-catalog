@@ -1,10 +1,10 @@
-from dataclasses import dataclass, field
 import glob
+from dataclasses import dataclass, field
+
 import yaml
 from fastapi import FastAPI
+
 from cloudmesh.common.util import path_expand
-from cloudmesh.catalog.database import DataBase
-from cloudmesh.catalog.deprecated.pickleable_mixin import PickleableMixin
 
 # TODO: this is not a stand alone prg
 # TODO: needs to use yamldb instead of pickle
@@ -21,6 +21,7 @@ from cloudmesh.catalog.deprecated.pickleable_mixin import PickleableMixin
 catalog_api_version = "1.0"
 catalog_api_base = f"/cloudmesh/{catalog_api_version}/catalog/"
 
+
 # TODO: is there a way to just set the base url and than all following urls are specified without the baseURL
 
 #
@@ -33,17 +34,20 @@ async def get_name(name):
     return entry
 
 
-class Catalog():
-    def server(self):
-        self.app  = FastAPI()
+class Catalog:
 
     def __init__(self, directory):
+        server()
         raise NotImplementedError
+
         # TODO: WE SHOUlD JUST USE dATAbASE AND MAKE SURE WE FIX THAT CLASS
 
-        #self.directory = directory  # string (i.e., 'data/')
-        #self.data = {}  # dictionary
-        #self.load(directory)  # loads self.data using yaml files in the given directory
+        # self.directory = directory  # string (i.e., 'data/')
+        # self.data = {}  # dictionary
+        # self.load(directory)  # loads self.data using yaml files in the given directory
+
+    def server(self):
+        self.app = FastAPI()
 
     # takes a query in the form {'name': name}, i.e. {'name': 'Amazon Comprehend'}
     # search : dict
@@ -88,7 +92,7 @@ class Catalog():
 
 
 @dataclass
-class CatalogEntry():
+class CatalogEntry:
     # UUID, globally unique
     id: str
     # Name of the service
@@ -138,9 +142,8 @@ class CatalogEntry():
     # description on how data is managed
     data: str = 'unknown'
 
-
 # FOR TESTING
-#if __name__ == "__main__":
+# if __name__ == "__main__":
 #    catalog = Catalog('data/catalog/')
 #    # print(cat.data)
 #

@@ -1,4 +1,5 @@
 from dataclasses import dataclass, field
+
 from fastapi import FastAPI
 
 from cloudmesh.catalog.deprecated.pickleable_mixin import PickleableMixin
@@ -12,12 +13,13 @@ async def get_name(name):
     entry = registry.query({'name': name})
     return entry
 
+
 class Registry(PickleableMixin):
     def __init__(self, directory):
-        self.directory = directory # string (i.e., 'data/')
-        self.data = {} # dictionary
-        self.load(directory) # loads self.data using yaml files in the given directory
-        
+        self.directory = directory  # string (i.e., 'data/')
+        self.data = {}  # dictionary
+        self.load(directory)  # loads self.data using yaml files in the given directory
+
     # takes a query in the form {'name': name}, i.e. {'name': 'Amazon Comprehend'}
     # search : dict
     def query(self, search):
@@ -35,19 +37,20 @@ class Registry(PickleableMixin):
                 parsed_yaml = yaml.safe_load(stream)
             except yaml.YAMLError as exc:
                 print(exc)
-        self.data.update(parsed_yaml) # update self.data with data from new file
+        self.data.update(parsed_yaml)  # update self.data with data from new file
 
     # loads self.data using yaml files in the given directory
     # directory : string (i.e., 'data/')
     def load(self, directory=None):
         if directory is None:
             directory = self.directory
-        files = glob.glob(directory + '*.yaml') # gets list of yaml files in given directory
+        files = glob.glob(directory + '*.yaml')  # gets list of yaml files in given directory
         for file in files:
             self.add(file)
 
+
 @dataclass
-class RegistryEntry():
+class RegistryEntry:
     # UUID, globally unique
     id: str
     # Name of the service
@@ -103,7 +106,8 @@ class RegistryEntry():
     # SLA/Cost: service level agreement including cost
     sla: str = 'unknown'
     # Caching interval
-    # If a service is accessed a lot, the caching interval can be used to put a limitation on the Response with an LRU cache
+    # If a service is accessed a lot, the caching interval can be used to put
+    # a limitation on the Response with an LRU cache
     caching_interval: str = 'unknown'
     # Data integration
     # In case of big data the data cannot be provided as a parameter to the analysis function. 
@@ -112,8 +116,7 @@ class RegistryEntry():
     # In this case this field provides the upload and download endpoints and the protocol to access the data
     data_integration: str = 'unknown'
 
+
 # for testing
 if __name__ == "__main__":
     pass
-
-    
