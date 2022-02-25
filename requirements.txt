@@ -11,3 +11,4 @@ cloudmesh-configuration
 yamldb
 fastapi
 uvcorn
+yamllint

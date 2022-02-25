@@ -35,6 +35,7 @@ cloudmesh-configuration
 yamldb
 fastapi
 uvcorn
+yamllint
 """.split("\n")
 
 # dependency_links = ['http://github.com/nicolaiarocci/eve.git@develop']

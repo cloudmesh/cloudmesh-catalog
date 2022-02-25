@@ -4,6 +4,7 @@ from cloudmesh.common.debug import VERBOSE
 from cloudmesh.shell.command import PluginCommand
 from cloudmesh.shell.command import command
 from cloudmesh.shell.command import map_parameters
+from cloudmesh.common.util import path_expand
 
 
 class CatalogCommand(PluginCommand):
@@ -31,6 +32,7 @@ class CatalogCommand(PluginCommand):
                 catalog export bibtex [--name=NAME] [--source=SOURCE] [--destination=DESTINATION]
                 catalog export md [--name=NAME]  [--source=SOURCE] [--destination=DESTINATION]
                 catalog export [hugo] md [--name=NAME]  [--source=SOURCE] [--destination=DESTINATION]
+                catalog check [--source=SOURCE]
 
           This command manages the catalog service.
 
@@ -186,14 +188,17 @@ class CatalogCommand(PluginCommand):
                 >
                 > and so on
 
+            catalog check [--source=SOURCE]
+                does some elementary checking an all files in the directory tree
+                starting with SOURCE
         """
         map_parameters(arguments,
                        "directory",
                        "attributes",
                        "docker",
                        "name",
-                       "source"
-                       "desctination")
+                       "source",
+                       "destination")
         # format can not be maped into a dict as reserved word use
         # arguments["--format"] instead
 
@@ -277,5 +282,11 @@ class CatalogCommand(PluginCommand):
             convert = Convert()
             result = convert.md(name=_name, source=_source, destination=_destination)
             print (result)
+
+        elif arguments.check:
+
+            convert = Convert()
+
+            convert.yaml_check(source=arguments.source)
 
         return ""
