@@ -5,11 +5,12 @@ azure_language:
   author: Microsoft
   public: true
   description: |
-    Azure Cognitive Service for Language is Microsoft's solution for cloud-based NLP.
-    It requires an Azure account. Notable features include a variety of pre-configured,
-    non-customizable models for different functions as well as the addition of some customizable
+    Azure Cognitive Service for Language is Microsoft's solution for
+    cloud-based NLP.  It requires an Azure account. Notable features
+    include a variety of pre-configured, non-customizable models for
+    different functions as well as the addition of some customizable
     options which allow the input of one's own custom-trained model.
-  version: unknown
+version: unknown
   license: unknown
   protocol: REST
   owner: Microsoft
@@ -18,14 +19,17 @@ azure_language:
   documentation: https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/
   source: unknown
   specification: unknown
-  tags: ["nlp", "nlp service", "machine learning", "cloud service", "nlp api",
-        "deep learning", "natural language processing", "artificial intelligence"]
-  categories: ["NLP"]
+  tags: ["nlp", "nlp service", "machine learning", "cloud service",
+        "nlp api", "deep learning", "natural language processing",
+        "artificial intelligence"]
+categories: ["NLP"]
   additional_metadata: unknown
   endpoint: unknown
   sla: https://www.azure.cn/en-us/support/sla/cognitive-services/
-  authors: The Azure team can be contacted through support request within the user's Azure portal
-  input: []
+  authors: |
+    The Azure team can be contacted through support request
+    within the user's Azure portal
+input: []
   output: []
   heartbeat: unknown
   caching_interval: unknown
