@@ -28,6 +28,9 @@ class Converter:
         if "http" not in self.data["url"]:
             raise ValueError("url not found")
 
+    def dedent(self, text):
+        return textwrap.dedent(text).strip() + "\n"
+
     def bibtex(self):
         bibtex_entry = """
         @misc{{{id},
@@ -40,7 +43,7 @@ class Converter:
           url = {{{url}}}
         }}
         """
-        return textwrap.dedent(bibtex_entry.format(**self.data)).strip() + "\n"
+        return self.dedent(bibtex_entry.format(**self.data))
 
     def hugo_markdown(self):
         markdown_entry = """
@@ -53,7 +56,7 @@ class Converter:
         
         {description}
         """
-        return markdown_entry.format(**self.data)
+        return self.dedent(markdown_entry.format(**self.data))
 
     def markdown(self):
         markdown_entry = """
@@ -66,4 +69,4 @@ class Converter:
 
         {description}
         """
-        return markdown_entry.format(**self.data)
+        return self.dedent(markdown_entry.format(**self.data))
