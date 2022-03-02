@@ -33,7 +33,7 @@ class ServiceManager:
         name = f"{self.path}/{self.name}"
         os.system(f"rm -f {name}.pid")
         command = f"nohup uvicorn cloudmesh.catalog.service:app --port={self.port} {self.reload} "\
-                  "> {name}.log 2>&1 & echo $! > {name}.pid"
+                  f"> {name}.log 2>&1 & echo $! > {name}.pid"
         print(command)
         result = os.system(command)
         print(result)

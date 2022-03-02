@@ -34,7 +34,7 @@ cloudmesh-inventory
 cloudmesh-configuration
 yamldb
 fastapi
-uvcorn
+uvicorn
 yamllint
 """.split("\n")
 
