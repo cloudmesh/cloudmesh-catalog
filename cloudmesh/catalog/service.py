@@ -5,7 +5,7 @@ app = FastAPI()
 
 @app.get("/")
 def read_root():
-    return {"Cloudmesh Catalog":"running"}
+    return {"Cloudmesh Catalog": "running"}
 
 
 @app.get("/items/{item_id}")

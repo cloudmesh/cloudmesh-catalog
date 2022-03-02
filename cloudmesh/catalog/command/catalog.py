@@ -1,10 +1,9 @@
-from cloudmesh.catalog.manager import ServiceManager
 from cloudmesh.catalog.convert import Convert
+from cloudmesh.catalog.manager import ServiceManager
 from cloudmesh.common.debug import VERBOSE
 from cloudmesh.shell.command import PluginCommand
 from cloudmesh.shell.command import command
 from cloudmesh.shell.command import map_parameters
-from cloudmesh.common.util import path_expand
 
 
 class CatalogCommand(PluginCommand):
@@ -268,14 +267,14 @@ class CatalogCommand(PluginCommand):
             source = arguments.source
             convert = Convert()
             result = convert.hugo_markdown(sources=source)
-            print (result)
+            print(result)
 
         elif arguments.md:
 
             source = arguments.source
             convert = Convert()
             result = convert.markdown(sources=source)
-            print (result)
+            print(result)
 
         elif arguments.check:
             convert = Convert()

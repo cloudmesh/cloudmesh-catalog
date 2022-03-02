@@ -1,12 +1,12 @@
 import os
-
-from cloudmesh.common.util import banner
-from cloudmesh.common.Shell import Shell
-from cloudmesh.common.util import readfile
-from cloudmesh.common.console import Console
 from pathlib import Path
+
 from cloudmesh.catalog.converter import Converter
+from cloudmesh.common.Shell import Shell
+from cloudmesh.common.util import banner
+from cloudmesh.common.util import readfile
 from cloudmesh.common.util import writefile
+
 
 class Convert:
     """
@@ -16,6 +16,7 @@ class Convert:
     catalog export md [--name=NAME]  [--source=SOURCE] [--destination=DESTINATION]
     catalog export [hugo] md [--name=NAME]  [--source=SOURCE] [--destination=DESTINATION]
     """
+
     def __init__(self):
         pass
 
@@ -32,19 +33,19 @@ class Convert:
             conversion(source)
 
     def _bibtex(self, source):
-        destination =  source.replace(".yaml", ".bib")
+        destination = source.replace(".yaml", ".bib")
         converter = Converter(filename=source)
         entry = converter.bibtex()
         writefile(destination, entry)
 
     def _markdown(self, source):
-        destination =  source.replace(".yaml", ".md")
+        destination = source.replace(".yaml", ".md")
         converter = Converter(filename=source)
         entry = converter.markdown()
         writefile(destination, entry)
 
     def _hugo_markdown(self, source):
-        destination =  source.replace(".yaml", "-h.md")
+        destination = source.replace(".yaml", "-h.md")
         converter = Converter(filename=source)
         entry = converter.hugo_markdown()
         writefile(destination, entry)
@@ -66,17 +67,17 @@ class Convert:
             report = Shell.run(f"yamllint {filename}").strip().splitlines()[1:]
             for entry in report:
                 enty = entry.replace("\t", " ").strip()
-                #line, column\
-                parts    = entry.split()
-                line,column = parts[0].split(":")
+                # line, column\
+                parts = entry.split()
+                line, column = parts[0].split(":")
                 line = int(line)
                 try:
                     if "line too long" in entry and not "http" in entry:
                         pass
                     else:
-                        print (
+                        print(
                             filename, "\n",
-                            content[line-1], "\n",
+                            content[line - 1], "\n",
                             entry,
                         )
                         print()

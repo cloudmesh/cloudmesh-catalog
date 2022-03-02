@@ -1,11 +1,13 @@
 import os
 
+import psutil
+
 from cloudmesh.common.Shell import Shell
 from cloudmesh.common.console import Console
-from cloudmesh.common.util import path_expand
 from cloudmesh.common.dotdict import dotdict
+from cloudmesh.common.util import path_expand
 from cloudmesh.common.util import readfile
-import psutil
+
 
 class ServiceManager:
 
@@ -34,7 +36,7 @@ class ServiceManager:
 
         name = f"{self.path}/{self.name}"
         os.system(f"rm -f {name}.pid")
-        command = f"nohup uvicorn cloudmesh.catalog.service:app --port={self.port} {self.reload} "\
+        command = f"nohup uvicorn cloudmesh.catalog.service:app --port={self.port} {self.reload} " \
                   f"> {name}.log 2>&1 & echo $! > {name}.pid"
         print(command)
         result = os.system(command)
@@ -58,19 +60,18 @@ class ServiceManager:
         """
         try:
             pid = readfile(f"{self.pid_file}").strip()
-            #if not psutil.pid_exists(pid):
+            # if not psutil.pid_exists(pid):
             #    pid = None
         except:
             pid = None
         return pid
 
-    def stop(self, pid = None):
+    def stop(self, pid=None):
         """
 
         :return:
         :rtype:
         """
-
 
         if pid is None:
             info = self.info()
@@ -78,14 +79,14 @@ class ServiceManager:
 
         for child in psutil.Process(pid).children():
             try:
-                print(f"Deleting {child.pid} ", end ="")
+                print(f"Deleting {child.pid} ", end="")
                 p = psutil.Process(child.pid)
                 p.kill()
                 Console.green("deleted.")
 
             except psutil.Error:
                 Console.red(". failed")
-        print(f"Deleting {child.pid} ", end ="")
+        print(f"Deleting {child.pid} ", end="")
         p = psutil.Process(pid)
         p.kill()
         Console.green("deleted.")
@@ -122,7 +123,7 @@ class ServiceManager:
         except:
             pass
         try:
-            data.children = [ child.pid for child in psutil.Process(data.pid).children()]
+            data.children = [child.pid for child in psutil.Process(data.pid).children()]
         except Exception as e:
             pass
 
