@@ -18,7 +18,7 @@ class CatalogCommand(PluginCommand):
           Usage:
                 catalog info
                 catalog start [--docker] [--name=NAME]
-                catalog stop [--docker] [--name=NAME]
+                catalog stop [--docker] [--name=NAME] [--pid=PID]
                 catalog status [--docker] [--name=NAME]
                 catalog list
                 catalog default [--name=NAME]
@@ -197,6 +197,7 @@ class CatalogCommand(PluginCommand):
                        "attributes",
                        "docker",
                        "name",
+                       "pid",
                        "source",
                        "destination")
         # format can not be maped into a dict as reserved word use
@@ -240,8 +241,12 @@ class CatalogCommand(PluginCommand):
             service.start()
 
         elif arguments.stop:
+
             service = ServiceManager()
-            service.stop()
+            if arguments.pid:
+                service.stop(pid=int(arguments.pid))
+            else:
+                service.stop()
 
         elif arguments.status:
             service = ServiceManager()
