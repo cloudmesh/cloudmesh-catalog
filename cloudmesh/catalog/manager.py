@@ -3,8 +3,9 @@ import os
 from cloudmesh.common.Shell import Shell
 from cloudmesh.common.console import Console
 from cloudmesh.common.util import path_expand
+from cloudmesh.common.dotdict import dotdict
 from cloudmesh.common.util import readfile
-
+import psutil
 
 class ServiceManager:
 
@@ -18,6 +19,7 @@ class ServiceManager:
         """
         self.name = name or "cloudmesh-catalog-service"
         self.path = path_expand("~/.cloudmesh/catalog")
+        self.pid_file = f"{self.path}/{self.name}.pid"
         self.port = 8001
         self.reload = "--reload"
 
@@ -40,7 +42,7 @@ class ServiceManager:
         if result != 0:
             Console.error("The catalog server could not be started due to an error")
         try:
-            content = readfile(f"{self.path}/{self.name}.pid")
+            content = readfile(f"{self.pid_file}")
             if "Address already in use" in content:
                 Console.error("Address already in use")
             else:
@@ -54,32 +56,40 @@ class ServiceManager:
         :return:
         :rtype:
         """
-        pid = None
-        # command = f"$(ps aux | grep 'uvicorn {self.name}' | grep -v grep | awk {'print $2'} | xargs)"
-        # pid = Shell.run(command).strip()
-        name = f"{self.path}/{self.name}"
-        pid = readfile(f"{name}.pid").strip()
+        try:
+            pid = readfile(f"{self.pid_file}").strip()
+            #if not psutil.pid_exists(pid):
+            #    pid = None
+        except:
+            pid = None
         return pid
 
-    def stop(self):
+    def stop(self, pid = None):
         """
 
         :return:
         :rtype:
         """
-        
-        info = self.info()
-        pids = info["children"] + [info["pid"]]
-        try:
-            for pid in pids:
-                print(f"Killing: {pid}", end="")
-                result = Shell.run(f"kill -9 {pid}")
-                if "No such process" in result:
-                    Console.red(". not found.")
-                else:
-                    Console.green(". deleted.")
-        except:
-            print("Process not found")
+
+
+        if pid is None:
+            info = self.info()
+            pid = info["pid"]
+
+        for child in psutil.Process(pid).children():
+            try:
+                print(f"Deleting {child.pid} ", end ="")
+                p = psutil.Process(child.pid)
+                p.kill()
+                Console.green("deleted.")
+
+            except psutil.Error:
+                Console.red(". failed")
+        print(f"Deleting {child.pid} ", end ="")
+        p = psutil.Process(pid)
+        p.kill()
+        Console.green("deleted.")
+        os.remove(self.pid_file)
 
     def status(self):
         """
@@ -88,9 +98,8 @@ class ServiceManager:
         :rtype:
         """
         # for debug only
-        os.system("ps")
-        pid = self.get_pid()
-        os.system(f"pstree -p {pid}")
+        probe = Shell.run(f"curl localhost:{self.port}")
+        return '{"Cloudmesh Catalog":"running"}' in probe
 
     def info(self):
         """
@@ -98,29 +107,23 @@ class ServiceManager:
         :return:
         :rtype:
         """
-        print('myles was here')
-        if Shell.terminal_type() == 'Linux':
-            pid = self.get_pid()
-            children = Shell.run(f"pstree -p {pid}").replace(f"({pid})", "").splitlines()
-            pids = []
-            for line in children:
-                pids.append("".join(filter(str.isdigit, line)))
-            data = {
-                "pid": pid,
-                "children": pids,
-            }
 
-        elif Shell.terminal_type() == 'darwin':
-            print('mac')
-            pid = self.get_pid()
-            lines = Shell.run(f"pstree -p {pid}").strip().splitlines()[1:]
-            
-            pids = [line.strip().split()[1] for line in lines]
-            print(pids)
-            data = {
-                "pid": pids[0],
-                "children": pids[1:],
-            }
-        else:
-            data = None
+        data = dotdict({
+            "pid": None,
+            "children": None,
+            "status": False
+        })
+        try:
+            data.pid = int(self.get_pid())
+        except:
+            pass
+        try:
+            data.status = self.status()
+        except:
+            pass
+        try:
+            data.children = [ child.pid for child in psutil.Process(data.pid).children()]
+        except Exception as e:
+            pass
+
         return data

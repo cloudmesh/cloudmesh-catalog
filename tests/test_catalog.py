@@ -8,8 +8,8 @@ import os
 import pytest
 from cloudmesh.common.Shell import Shell
 from cloudmesh.common.util import HEADING
-from cloudmesh.data.create import ascii_file
-from cloudmesh.data.create import random_file
+#from cloudmesh.data.create import ascii_file
+#from cloudmesh.data.create import random_file
 
 
 @pytest.mark.incremental
@@ -26,23 +26,36 @@ class Test_catalog(object):
         assert "catalog copy" in r
         assert "ERROR: Could not execute the command." in r
 
+    def test_001_start(self):
+        HEADING()
+        r = Shell.run("cms catalog start")
+        r = Shell.run("cms catalog info")
+        assert "True" in r
+        r = Shell.run("curl localhost:8001")
+        assert "running" in r
+
+    def test_002_info(self):
+        HEADING()
+        r = Shell.run("cms catalog info")
+        assert "True" in r
+        r = Shell.run("curl localhost:8001")
+        assert "running" in r
+
+    def test_003_stop(self):
+        HEADING()
+        r = Shell.run("cms catalog stop")
+        r = Shell.run("cms catalog info")
+        assert "'pid': None" in r
+        r = Shell.run("curl localhost:8001")
+        assert "running" not in r
+
+
+class rest:
+
     def test_002_create_database(self):
         HEADING()
         # here you create a test directory with data
         raise None
-
-    def test_003_start(self):
-        HEADING()
-        r = Shell.run("cms catalog start")
-        print(r)
-        assert "cloudmesh/catalog/cloudmesh-catalog-service.pid" in r
-        #not really a test
-
-    def test_004_info(self):
-        HEADING()
-        r = Shell.run("cms catalog info")
-        print(r)
-        assert "cloudmesh/catalog/cloudmesh-catalog-service.pid" in r
 
 
     def test_005_load(self):
