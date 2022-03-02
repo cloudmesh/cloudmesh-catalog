@@ -67,8 +67,9 @@ class ServiceManager:
         :return:
         :rtype:
         """
+        
         info = self.info()
-        pids = [info["pid"]] + info["children"]
+        pids = info["children"] + [info["pid"]]
         try:
             for pid in pids:
                 print(f"Killing: {pid}", end="")
@@ -97,13 +98,29 @@ class ServiceManager:
         :return:
         :rtype:
         """
-        pid = self.get_pid()
-        children = Shell.run(f"pstree -p {pid}").replace(f"({pid})", "").splitlines()
-        pids = []
-        for line in children:
-            pids.append("".join(filter(str.isdigit, line)))
-        data = {
-            "pid": pid,
-            "children": pids,
-        }
+        print('myles was here')
+        if Shell.terminal_type() == 'Linux':
+            pid = self.get_pid()
+            children = Shell.run(f"pstree -p {pid}").replace(f"({pid})", "").splitlines()
+            pids = []
+            for line in children:
+                pids.append("".join(filter(str.isdigit, line)))
+            data = {
+                "pid": pid,
+                "children": pids,
+            }
+
+        elif Shell.terminal_type() == 'darwin':
+            print('mac')
+            pid = self.get_pid()
+            lines = Shell.run(f"pstree -p {pid}").strip().splitlines()[1:]
+            
+            pids = [line.strip().split()[1] for line in lines]
+            print(pids)
+            data = {
+                "pid": pids[0],
+                "children": pids[1:],
+            }
+        else:
+            data = None
         return data

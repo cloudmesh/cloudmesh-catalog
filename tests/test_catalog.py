@@ -33,13 +33,17 @@ class Test_catalog(object):
 
     def test_003_start(self):
         HEADING()
-        # here you create the start test of the server
-        raise NotImplementedError
+        r = Shell.run("cms catalog start")
+        print(r)
+        assert "cloudmesh/catalog/cloudmesh-catalog-service.pid" in r
+        #not really a test
 
-    def test_004_status(self):
+    def test_004_info(self):
         HEADING()
-        # here you create the status test of the server
-        raise NotImplementedError
+        r = Shell.run("cms catalog info")
+        print(r)
+        assert "cloudmesh/catalog/cloudmesh-catalog-service.pid" in r
+
 
     def test_005_load(self):
         HEADING()
