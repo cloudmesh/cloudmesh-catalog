@@ -1,5 +1,5 @@
-azure_language:
-  id: unknown
+
+  id: azure_language
   name: Azure Cognitive Service for Language
   title: Azure Cognitive Service for Language
   author: Microsoft
@@ -10,7 +10,7 @@ azure_language:
     include a variety of pre-configured, non-customizable models for
     different functions as well as the addition of some customizable
     options which allow the input of one's own custom-trained model.
-version: unknown
+  version: unknown
   license: unknown
   protocol: REST
   owner: Microsoft
@@ -19,21 +19,27 @@ version: unknown
   documentation: https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/
   source: unknown
   specification: unknown
-  tags: ["nlp", "nlp service", "machine learning", "cloud service",
-        "nlp api", "deep learning", "natural language processing",
-        "artificial intelligence"]
-categories: ["NLP"]
+  tags:
+  - "nlp"
+  - "nlp service"
+  - "machine learning"
+  - "cloud service"
+  - "nlp api"
+  - "deep learning"
+  - "natural language processing"
+  - "artificial intelligence"
+  categories:
+  - "NLP"
   additional_metadata: unknown
   endpoint: unknown
   sla: https://www.azure.cn/en-us/support/sla/cognitive-services/
   authors: |
     The Azure team can be contacted through support request
     within the user's Azure portal
-input: []
-  output: []
+  input: 
+  output:
   heartbeat: unknown
   caching_interval: unknown
   data_integration: unknown
-  
 
   
