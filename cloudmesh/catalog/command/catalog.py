@@ -29,8 +29,8 @@ class CatalogCommand(PluginCommand):
                 catalog copy [--docker] [--name=NAME] [--source=URL]
                 catalog federate [--docker] [--name=NAME] [--source=URL]
                 catalog load [--docker] [--name=NAME] [--source=URL]
-                catalog export bibtex [--name=NAME] [--source=SOURCE] [--destination=DESTINATION]
-                catalog export md [--name=NAME]  [--source=SOURCE] [--destination=DESTINATION]
+                catalog export bibtex [--name=NAME] [--source=SOURCE]
+                catalog export md [--name=NAME]  [--source=SOURCE]
                 catalog export [hugo] md [--name=NAME]  [--source=SOURCE] [--destination=DESTINATION]
                 catalog check [--source=SOURCE]
 
@@ -257,41 +257,28 @@ class CatalogCommand(PluginCommand):
             print(service.info())
 
         elif arguments.bibtex:
-            # improve logic for name, source, destination if you can
-            name = arguments.name
-            source = arguments.source
-            destination = arguments.destination or source
 
+            source = arguments.source
             convert = Convert()
-            result = convert.bibtex(name=name, source=source, destination=destination)
+            result = convert.bibtex(sources=source)
             print(result)
 
         elif arguments.hugo and arguments.md:
-            # improve logic for name, source, destination if you can
 
-            name = arguments.name
             source = arguments.source
-            destination = arguments.destination or source
-
             convert = Convert()
-            result = convert.hugo_md(name=name, source=source, destination=destination)
+            result = convert.hugo_markdown(sources=source)
             print (result)
 
         elif arguments.md:
-            # improve logic for name, source, destination if you can
 
-            _name = arguments.name
-            _source = arguments.source
-            _destination = arguments.destination or _source
-
+            source = arguments.source
             convert = Convert()
-            result = convert.md(name=_name, source=_source, destination=_destination)
+            result = convert.markdown(sources=source)
             print (result)
 
         elif arguments.check:
-
             convert = Convert()
-
             convert.yaml_check(source=arguments.source)
 
         return ""

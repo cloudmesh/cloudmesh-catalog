@@ -1,5 +1,5 @@
 import os
-
+import textwrap
 from cloudmesh.common.util import readfile
 import yaml
 
@@ -30,7 +30,7 @@ class Converter:
 
     def bibtex(self):
         bibtex_entry = """
-        @misc{{{label}}},
+        @misc{{{id},
           title={{{title}}},
           name={{{name}}},
           author={{{author}}},
@@ -38,14 +38,11 @@ class Converter:
           month = {month},
           year = {{{year}}},
           url = {{{url}}}
-        ]
+        }}
         """
-        return bibtex_entry.format(**self.data)
+        return textwrap.dedent(bibtex_entry.format(**self.data)).strip() + "\n"
 
-# careful of international spec for dates
-
-
-    def markdown(self):
+    def hugo_markdown(self):
         markdown_entry = """
         ---
         author: {author}
@@ -54,6 +51,19 @@ class Converter:
         
         ## Description
         
+        {description}
+        """
+        return markdown_entry.format(**self.data)
+
+    def markdown(self):
+        markdown_entry = """
+        ---
+        author: {author}
+        title:  {title}
+        ---
+
+        ## Description
+
         {description}
         """
         return markdown_entry.format(**self.data)

@@ -5,7 +5,8 @@ from cloudmesh.common.Shell import Shell
 from cloudmesh.common.util import readfile
 from cloudmesh.common.console import Console
 from pathlib import Path
-
+from cloudmesh.catalog.converter import Converter
+from cloudmesh.common.util import writefile
 
 class Convert:
     """
@@ -18,14 +19,44 @@ class Convert:
     def __init__(self):
         pass
 
-    def bibtex(self, name=None, source=None, destination=None):
-        raise NotImplementedError
+    def _find_sources_from_dir(self, source=None):
+        source = Path(source).resolve()
+        return Path(source).rglob('*.yaml')
 
-    def md(self, name=None, source=None, destination=None):
-        raise NotImplementedError
+    def convert(self, sources=None, conversion=None):
+        if os.path.isdir(sources):
+            sources = self._find_sources_from_dir(self, source=None)
+        else:
+            sources = [sources]
+        for source in sources:
+            conversion(source)
 
-    def hugo_md(self, name=None, source=None, destination=None):
-        raise NotImplementedError
+    def _bibtex(self, source):
+        destination =  source.replace(".yaml", ".bib")
+        converter = Converter(filename=source)
+        entry = converter.bibtex()
+        writefile(destination, entry)
+
+    def _markdown(self, source):
+        destination =  source.replace(".yaml", ".md")
+        converter = Converter(filename=source)
+        entry = converter.markdown()
+        writefile(destination, entry)
+
+    def _hugo_markdown(self, source):
+        destination =  source.replace(".yaml", "-h.md")
+        converter = Converter(filename=source)
+        entry = converter.hugo_markdown()
+        writefile(destination, entry)
+
+    def bibtex(self, sources=None):
+        self.convert(sources, self._bibtex)
+
+    def markdown(self, sources=None):
+        self.convert(sources, self._md)
+
+    def hugo_markdown(self, sources=None):
+        self.convert(sources, self._hugo_md)
 
     def yaml_check(self, source="."):
         source = Path(source).resolve()
@@ -45,7 +76,7 @@ class Convert:
                     else:
                         print (
                             filename, "\n",
-                            content[line], "\n",
+                            content[line-1], "\n",
                             entry,
                         )
                         print()
