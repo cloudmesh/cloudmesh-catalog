@@ -2,6 +2,8 @@ package=catalog
 UNAME=$(shell uname)
 VERSION=`head -1 VERSION`
 
+.PHONY: www
+
 define banner
 	@echo
 	@echo "###################################"
@@ -10,6 +12,45 @@ define banner
 endef
 
 all: install
+
+
+############################################
+
+www:
+	$(call banner, "hugo")
+	cd www; hugo
+
+hugo: www
+
+serve:
+	$(call banner, "SERVE")
+	cd www; hugo --config=config-local.toml serve
+
+e: edit
+
+edit:
+	emacs www/content/en/docs/ &
+
+view:
+	$(call banner, "VIEW")
+	gopen http://localhost:1313
+
+emacs:
+	$(call banner, "EMACS")
+	emacs www/content/en
+
+clean:
+	$(call banner, "CLEAN")
+	rm -rf *.zip
+	rm -rf *.egg-info
+	rm -rf *.eggs
+	rm -rf docs/build
+	rm -rf build
+	rm -rf dist
+	find . | grep -E "(__pycache__|\.pyc|\.pyo$)" | xargs rm -rf
+	rm -rf .tox
+
+#######################################
 
 install:
 	pip install -e .
@@ -62,7 +103,7 @@ view:
 #	pylint --output-format=html cloudmesh > docs/qc/pylint/cm/cloudmesh.html
 #	pylint --output-format=html cloud > docs/qc/pylint/cm/cloud.html
 
-clean:
+bclean:
 	$(call banner, "CLEAN")
 	rm -rf dist
 	rm -rf *.zip
