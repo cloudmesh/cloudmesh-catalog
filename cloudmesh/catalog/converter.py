@@ -46,27 +46,70 @@ class Converter:
         return self.dedent(bibtex_entry.format(**self.data))
 
     def hugo_markdown(self):
-        markdown_entry = """
+        for entry in ["tags", "categories"]:
+            self.data[entry] = "\n".join(["- " + value for value in self.data[entry]])
+
+
+        markdown_entry = textwrap.dedent("""
         ---
+        date: {modified}
+        title: {title}
+        tags: 
+        {tags}
+        categories: 
+        {categories}
+        linkTitle: MISSING
+        description: {description}
         author: {author}
-        title:  {title}
+        draft: False
         ---
-        
+                
         ## Description
         
         {description}
-        """
+
+        ## Version
+        
+        {version}
+
+        ## Documentation
+        
+        {documentation}
+        
+        ## SLA
+        
+        {sla}
+        
+        ## Data
+        
+        {data}
+        """)
         return self.dedent(markdown_entry.format(**self.data))
 
     def markdown(self):
+        self.data["tags"] = ", ".join(self.data["tags"])
+        self.data["categories"] = ", ".join(self.data["categories"])
         markdown_entry = """
-        ---
-        author: {author}
-        title:  {title}
-        ---
-
+        # {title}
+        
+        * Author: {author}
+        * Version: {version}
+        * Modified: {modified}
+        * Created: {created}
+        * <{documentation}>
+        * Tags: {tags}
+        * Categories: {categories}
+        
         ## Description
 
         {description}
+        
+        ## SLA
+        
+        {sla}
+        
+        ## Data
+        
+        {data}
         """
         return self.dedent(markdown_entry.format(**self.data))

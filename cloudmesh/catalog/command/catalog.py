@@ -259,22 +259,19 @@ class CatalogCommand(PluginCommand):
 
             source = arguments.source
             convert = Convert()
-            result = convert.bibtex(sources=source)
-            print(result)
+            convert.bibtex(sources=source)
 
         elif arguments.hugo and arguments.md:
 
             source = arguments.source
             convert = Convert()
-            result = convert.hugo_markdown(sources=source)
-            print(result)
+            convert.hugo_markdown(sources=source)
 
         elif arguments.md:
 
             source = arguments.source
             convert = Convert()
-            result = convert.markdown(sources=source)
-            print(result)
+            convert.markdown(sources=source)
 
         elif arguments.check:
             convert = Convert()

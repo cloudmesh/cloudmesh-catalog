@@ -22,30 +22,34 @@ class Convert:
 
     def _find_sources_from_dir(self, source=None):
         source = Path(source).resolve()
-        return Path(source).rglob('*.yaml')
+        result = Path(source).rglob('*.yaml')
+        return result
 
-    def convert(self, sources=None, conversion=None):
-        if os.path.isdir(sources):
-            sources = self._find_sources_from_dir(self, source=None)
+    def convert(self, source=None, conversion=None):
+        if type(source) is str and os.path.isdir(source):
+            sources = self._find_sources_from_dir(source=source)
+        elif type(source) is str:
+            sources = [source]
         else:
-            sources = [sources]
+            sources = source
         for source in sources:
+            print(f"Convert {source} to {conversion.__name__[1:]}")
             conversion(source)
 
     def _bibtex(self, source):
-        destination = source.replace(".yaml", ".bib")
+        destination = str(source).replace(".yaml", ".bib")
         converter = Converter(filename=source)
         entry = converter.bibtex()
         writefile(destination, entry)
 
     def _markdown(self, source):
-        destination = source.replace(".yaml", ".md")
+        destination = str(source).replace(".yaml", ".md")
         converter = Converter(filename=source)
         entry = converter.markdown()
         writefile(destination, entry)
 
     def _hugo_markdown(self, source):
-        destination = source.replace(".yaml", "-h.md")
+        destination = str(source).replace(".yaml", "-h.md")
         converter = Converter(filename=source)
         entry = converter.hugo_markdown()
         writefile(destination, entry)
@@ -54,10 +58,10 @@ class Convert:
         self.convert(sources, self._bibtex)
 
     def markdown(self, sources=None):
-        self.convert(sources, self._md)
+        self.convert(sources, self._markdown)
 
     def hugo_markdown(self, sources=None):
-        self.convert(sources, self._hugo_md)
+        self.convert(sources, self._hugo_markdown)
 
     def yaml_check(self, source="."):
         source = Path(source).resolve()
