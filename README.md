@@ -201,3 +201,21 @@ We know that it may be problematic to distingush automatically between YYYY-MM-D
 Hence we encourage you to be careful when adding entries.
 
 
+## Developer Video Tutorials
+
+We are providing a number of developer video tutorials that help undesrtanding how we develop code and leverage the 
+cloudmesh-cmd5 shell features:
+
+* [Cloudmesh Catalog. Who to improve the check feature](https://www.youtube.com/watch?v=OkuYxky2TFo)
+* [Cloudmesh Catalog. Overview of the converter](https://www.youtube.com/watch?v=4bKvA3RhWaU)
+* [Cloudmesh Catalog. How to use the integration with hugo](https://www.youtube.com/watch?v=LfC5JDddwLI)
+* [Cloudmesh Catalog. Managing the server with start, stop, info, status](https://www.youtube.com/watch?v=qr8Yf5qAmV8)
+* [Cloudmesh Catalog. Running the Server on a Mac on port 8001](https://www.youtube.com/watch?v=T2im0MeDDKE)
+* [Github Tips and Project management](https://www.youtube.com/watch?v=Jce1kYOkd04)
+* [Overview Cloudmesh NIST project](https://www.youtube.com/watch?v=BCIE44MDgwE)
+
+Other videos are available at
+
+* <https://www.youtube.com/c/GregorvonLaszewski/videos>
+
+
