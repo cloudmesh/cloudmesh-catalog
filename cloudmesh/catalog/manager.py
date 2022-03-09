@@ -1,4 +1,5 @@
 import os
+import socket
 
 import psutil
 
@@ -27,12 +28,20 @@ class ServiceManager:
 
         Shell.mkdir(self.path)
 
+    def is_port_in_use(self) -> bool:
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            return s.connect_ex(('localhost', self.port)) == 0
+
     def start(self):
         """
 
         :return:
         :rtype:
         """
+
+        if self.is_port_in_use():
+            Console.error(f"Port {self.port} already in use")
+            return
 
         name = f"{self.path}/{self.name}"
         os.system(f"rm -f {name}.pid")

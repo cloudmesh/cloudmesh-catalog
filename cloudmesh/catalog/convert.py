@@ -1,12 +1,13 @@
 import os
 from pathlib import Path
+import yaml
 
 from cloudmesh.catalog.converter import Converter
 from cloudmesh.common.Shell import Shell
 from cloudmesh.common.util import banner
 from cloudmesh.common.util import readfile
 from cloudmesh.common.util import writefile
-
+from cloudmesh.common.console import Console
 
 class Convert:
     """
@@ -101,3 +102,26 @@ class Convert:
                         print()
                 except:
                     pass
+
+            content = readfile(filename)
+            entry = yaml.safe_load(content)
+
+            value = entry["id"]
+            if value.lower() in ["missing", "unkown"]:
+                Console.error(f"id is not specified {filename} id={value} wrong")
+
+            for _date in ["modified", "created"]:
+                value = entry[_date]
+                # verify if value is corredt. datetime
+                try:
+                    year, month, day = value.split("-")
+                    if len (year) != 4:
+                        Console.error(f"year format in {filename} at {_date} wrong: it should be YYYY-MM-DD")
+                    if not (1 <= month <= 12):
+                        Console.error(f"month format in {filename} at {_date} wrong: it should be YYYY-MM-DD")
+                    if not (1 <= day <= 31):
+                        Console.error(f"day format in {filename} at {_date} wrong: it should be YYYY-MM-DD")
+                except:
+                    Console.error(f"time format in {filename} at {_date} wrong: it should be YYYY-MM-DD")
+
+
