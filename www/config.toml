@@ -1,8 +1,8 @@
 #
-baseURL = "/mlcommons"
+baseURL = "/nist"
 #baseURL = "/"
 publishDir = "../docs"
-title = "MLCommons Science Working Group We Site"
+title = "Cloudmesh AI Services Catalog"
 
 enableRobotsTXT = true
 
@@ -73,8 +73,8 @@ anchor = "smart"
 
 [languages]
 [languages.en]
-title = "ML Science Benchmarks"
-description = "A site to develop material for MLCommons"
+title = "Cloudmesh AI Services Catalog"
+description = "A site to develop material for NIST"
 languageName ="English"
 # Weight used for sorting.
 weight = 1
@@ -109,7 +109,7 @@ weight = 1
 section = ["HTML", "print", "RSS"]
 
 [params]
-copyright = "MLCommons Science Working Group"
+copyright = "Nist Analytics Services Working Group"
 # privacy_policy = "https://policies.google.com/privacy"
 
 # First one is picked as the Twitter card image if not set on page.
@@ -134,7 +134,7 @@ version = "0.0"
 url_latest_version = "https://mlcommons.org/en/groups/research-science/"
 
 # Repository configuration (URLs for in-page links to opening issues and suggesting changes)
-github_repo = "https://github.com/laszewsk/mlcommons"
+github_repo = "https://github.com/laszewsk/nist"
 # An optional link to a related project repo. For example, the sibling repository where your product code lives.
 # github_project_repo = "https://github.com/google/docsy"
 
@@ -209,7 +209,7 @@ enable = false
 # Developer relevant links. These will show up on right side of footer and in the community page if you have one.
 [[params.links.developer]]
   name = "GitHub"
-  url = "https://github.com/laszewsk/mlcommons"
+  url = "https://github.com/laszewsk/nist"
   icon = "fab fa-github"
   desc = "Development takes place here!"
 #[[params.links.developer]]

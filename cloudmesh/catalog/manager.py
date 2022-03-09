@@ -11,7 +11,7 @@ from cloudmesh.common.util import readfile
 
 class ServiceManager:
 
-    # r = cloudmesh.common.SHell.run("uvicrn .... ")
+    # r = cloudmesh.common.SHell.run("uvicorn .... ")
 
     def __init__(self, name=None):
         """

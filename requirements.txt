@@ -8,6 +8,7 @@ cloudmesh-configuration
 #
 #    pip-compile setup.py
 #
+yaml
 yamldb
 fastapi
 uvicorn

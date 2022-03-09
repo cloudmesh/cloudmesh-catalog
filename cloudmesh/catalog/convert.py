@@ -25,7 +25,7 @@ class Convert:
         result = Path(source).rglob('*.yaml')
         return result
 
-    def convert(self, source=None, conversion=None):
+    def convert(self, source=None, conversion=None, template=None):
         if type(source) is str and os.path.isdir(source):
             sources = self._find_sources_from_dir(source=source)
         elif type(source) is str:
@@ -34,7 +34,10 @@ class Convert:
             sources = source
         for source in sources:
             print(f"Convert {source} to {conversion.__name__[1:]}")
-            conversion(source)
+            if template is None:
+                conversion(source)
+            else:
+                conversion(source, template)
 
     def _bibtex(self, source):
         destination = str(source).replace(".yaml", ".bib")
@@ -54,6 +57,17 @@ class Convert:
         entry = converter.hugo_markdown()
         writefile(destination, entry)
 
+    def _template(self, source, template):
+        raise NotImplementedError
+        ending = str(source).rsplit(".")[1]
+        destination = str(source).replace(".yaml", ending)
+        converter = Converter(filename=source)
+        entry = converter.template(template)
+        writefile(destination, entry)
+
+    def template(self, sources=None, template=None):
+        self.convert(sources, self._template, template=template)
+
     def bibtex(self, sources=None):
         self.convert(sources, self._bibtex)
 
@@ -70,7 +84,7 @@ class Convert:
             content = readfile(filename).splitlines()
             report = Shell.run(f"yamllint {filename}").strip().splitlines()[1:]
             for entry in report:
-                enty = entry.replace("\t", " ").strip()
+                entry = entry.replace("\t", " ").strip()
                 # line, column\
                 parts = entry.split()
                 line, column = parts[0].split(":")

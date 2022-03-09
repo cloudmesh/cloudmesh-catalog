@@ -8,14 +8,17 @@ from cloudmesh.common.util import readfile
 
 class Converter:
 
-    def __init__(self, filename=None):
+    def __init__(self, filename=None, template=None):
         # data/catalog/azure/bot_services.yaml"
         if not os.path.exists(filename):
             raise ValueError("file can not be found")
         self.content = readfile(filename)
-
+        self.template_form = None
+        if template is not None:
+            self.template_form = readfile(template)
         self.data = yaml.safe_load(self.content)
-
+        self.data["edit_url"] = "https://github.com/laszewsk/nist/blob/main/catalog/" + \
+                                str(filename).split("catalog/")[1]
         day, month, year = self.data["modified"].split("-")
         import calendar
 
@@ -30,6 +33,9 @@ class Converter:
 
     def dedent(self, text):
         return textwrap.dedent(text).strip() + "\n"
+
+    def template(self):
+        return self.dedent(self.template_form.format(**self.data))
 
     def bibtex(self):
         bibtex_entry = """
@@ -49,6 +55,8 @@ class Converter:
         for entry in ["tags", "categories"]:
             self.data[entry] = "\n".join(["- " + value for value in self.data[entry]])
 
+        # description: {description}
+        # author: {author}
 
         markdown_entry = textwrap.dedent("""
         ---
@@ -59,11 +67,14 @@ class Converter:
         categories: 
         {categories}
         linkTitle: MISSING
-        description: {description}
-        author: {author}
-        draft: False
+        draft: False         
+        github_url: {edit_url}
         ---
                 
+        {{{{% pageinfo %}}}}
+        {description}
+        {{{{% /pageinfo %}}}}
+        
         ## Description
         
         {description}

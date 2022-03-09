@@ -10,19 +10,23 @@ from cloudmesh.common.util import path_expand
 # TODO: needs to use yamldb instead of pickle
 # TODO: needs to read form defined relative directory for data
 #    find data from source deployment while looking for cloudmesh/catalog/data
-# TODO: the data directory is in home dire and therfore could be overwritten, we need to moe likely elsewhere
+# TODO: the data directory is in home dire and therefore could be overwritten,
+#   we need to moe likely elsewhere
 # TODO: the version is hardcoded
-# TODO: the initializer of where the data dire is is incorrect, it requires this to be
+# TODO: the initializer of where the data dire is is incorrect, it requires
+#   this to be
 #      started from dir in which data dir is
 # TODO: if yamldb can be used its much more comfortable
-# Option:       alternatively we could use containers and Mongo db or something like that
+# Option:       alternatively we could use containers and Mongo db or something
+#               like that
 # TODO: if name must be removed
 
 catalog_api_version = "1.0"
 catalog_api_base = f"/cloudmesh/{catalog_api_version}/catalog/"
 
 
-# TODO: is there a way to just set the base url and than all following urls are specified without the baseURL
+# TODO: is there a way to just set the base url and than all following urls are
+#       specified without the baseURL
 
 #
 # TODO: why is his not in the class?
@@ -53,7 +57,7 @@ class Catalog:
     # search : dict
     def query(self, search):
         """
-        Conducs a query using jmsepath
+        Conducts a query using jmsepath
 
         :param search:
         :type search:
@@ -70,7 +74,7 @@ class Catalog:
         :param file: The filename.  EXAMPLE '~/data/amazon_comprehend.yaml'
         :type file: str
         :return: returns true if the upload was successful
-        :rtype: boolen
+        :rtype: bool
         """
         file = path_expand(file)
         with open(file, "r") as stream:

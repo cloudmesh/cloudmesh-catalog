@@ -28,9 +28,10 @@ class CatalogCommand(PluginCommand):
                 catalog copy [--docker] [--name=NAME] [--source=URL]
                 catalog federate [--docker] [--name=NAME] [--source=URL]
                 catalog load [--docker] [--name=NAME] [--source=URL]
-                catalog export bibtex [--name=NAME] [--source=SOURCE]
-                catalog export md [--name=NAME]  [--source=SOURCE]
-                catalog export [hugo] md [--name=NAME]  [--source=SOURCE] [--destination=DESTINATION]
+                catalog export bibtex [--source=SOURCE] [--destination=DESTINATION]
+                catalog export md [--source=SOURCE] [--destination=DESTINATION]
+                catalog export hugo [--source=SOURCE] [--destination=DESTINATION]
+                catalog export --template=TEMPLATE [--source=SOURCE] [--destination=DESTINATION]
                 catalog check [--source=SOURCE]
 
           This command manages the catalog service.
@@ -78,27 +79,27 @@ class CatalogCommand(PluginCommand):
                 available port if it is not already used. If no prior catalog service with a port exists
                 the port 40000 will be used
 
-                If the docker flag is specified the catalog willl not be started natively, but in a
-                docker container. uid and gid will be automatically vorwarded to the container, so data cahnges are
+                If the docker flag is specified the catalog will not be started natively, but in a
+                docker container. uid and gid will be automatically forwarded to the container, so data changes are
                 conducted with the host user.
 
-                If the image is not existand, a docker container will be started. The Dockerfile is located in the code
+                If the image does not exist, a docker container will be started. The Dockerfile is located in the code
                 base and dynamically retrieved from the pip installed package in
                 cloudmesh/catalog/Dockerfile
 
             catalog query QUERY [--name=NAME]
-              issues a querry to the given catalog services. If the name is ommitted the default service is used
+              issues a query to the given catalog services. If the name is omitted the default service is used
               The query is formulated using https://jmespath.org/tutorial.html
 
             catalog print [--format=FORMAT] [--name=NAME]
-                prints all entries of the given catalogs. With attributs you can select a number of attribtes.
+                prints all entries of the given catalogs. With attributes you can select a number of attributes.
                 If the attributes ae nested a . notation can be used
                 The format is by default table, but can also set to json, yaml, csv
 
             catalog start [--docker] [--name=NAME]
                 This command starts the services. If docker is used the service is started
                 as container. The name specifies the service so multiple services can be started
-                If the name is omited the default container is used. If only one service is specified
+                If the name is omitted the default container is used. If only one service is specified
                 this is the default
 
             catalog stop [--docker] [--name=NAME]
@@ -124,7 +125,7 @@ class CatalogCommand(PluginCommand):
                 source urls. Please note that the URLs are of teh form host:port.
                 When the federation service is queried, parallel queries will be issued to
                 all sources and the query result will be reduced to a single result.
-                whne the cache option is specified the result will be cached and the next
+                when the cache option is specified the result will be cached and the next
                 time the query is asked it will use also the cached result. A time to live
                 is specified to asure the cached result will be deleted after the ttl is expired.
 
@@ -187,6 +188,13 @@ class CatalogCommand(PluginCommand):
                 >
                 > and so on
 
+            catalog export --template=TEMPLATE [--name=NAME]  [--source=SOURCE]
+
+                formats the source file(s) based on the template that is provided.
+                The template is a file that uses curly brakets for replacement of
+                the attribute names, If a name is not in the source an error will
+                be produced.
+
             catalog check [--source=SOURCE]
                 does some elementary checking an all files in the directory tree
                 starting with SOURCE
@@ -199,10 +207,9 @@ class CatalogCommand(PluginCommand):
                        "pid",
                        "source",
                        "destination")
-        # format can not be maped into a dict as reserved word use
+        # format can not be mapped into a dict as reserved word use
         # arguments["--format"] instead
 
-        VERBOSE(arguments)
 
         if arguments["list"]:
             raise NotImplementedError
@@ -211,7 +218,7 @@ class CatalogCommand(PluginCommand):
         elif arguments.init:
             # requires the catalog server and the location of a named
             # catalog in ~/.cloudmesh/catalog/{name}
-            # so if we find one we could cerate some default and use that catalog
+            # so if we find one we could create some default and use that catalog
             # as default and if no name is specified we use that
             # this is to be implemented in the init function
             raise NotImplementedError
@@ -261,7 +268,7 @@ class CatalogCommand(PluginCommand):
             convert = Convert()
             convert.bibtex(sources=source)
 
-        elif arguments.hugo and arguments.md:
+        elif arguments.hugo:
 
             source = arguments.source
             convert = Convert()
@@ -272,6 +279,13 @@ class CatalogCommand(PluginCommand):
             source = arguments.source
             convert = Convert()
             convert.markdown(sources=source)
+
+        elif arguments.template:
+
+            template = arguments.template
+            source = arguments.source
+            convert = Convert()
+            convert.template(sources=source, template=template)
 
         elif arguments.check:
             convert = Convert()
