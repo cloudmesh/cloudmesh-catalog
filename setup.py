@@ -32,7 +32,7 @@ cloudmesh-cmd5
 cloudmesh-sys
 cloudmesh-inventory
 cloudmesh-configuration
-yaml
+pyyaml
 yamldb
 fastapi
 uvicorn
