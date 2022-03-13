@@ -78,13 +78,17 @@ class Convert:
     def hugo_markdown(self, sources=None):
         self.convert(sources, self._hugo_markdown)
 
-    def yaml_check(self, source="."):
+    def _shorten_path(self, source):
+        return str(source).replace(os.getcwd(), ".")
+
+    def yaml_check(self, source=".", relative=True):
         source = Path(source).resolve()
         banner(f"check {source}")
         for filename in Path(source).rglob('*.yaml'):
             content = readfile(filename).splitlines()
             report = Shell.run(f"yamllint {filename}").strip().splitlines()[1:]
             for entry in report:
+                entry = self._shorten_path(entry)
                 entry = entry.replace("\t", " ").strip()
                 # line, column\
                 parts = entry.split()
@@ -109,19 +113,21 @@ class Convert:
             value = entry["id"]
             if value.lower() in ["missing", "unkown"]:
                 Console.error(f"id is not specified {filename} id={value} wrong")
+            try:
+                for _date in ["modified", "created"]:
+                    value = entry[_date]
+                    try:
+                        year, month, day = value.split("-")
+                        if relative:
+                            _filename = self._shorten_path(filename)
+                        if len (year) != 4:
+                            Console.error(f"year format in {_filename} at {_date} wrong: it should be YYYY-MM-DD")
+                        if not (1 <= month <= 12):
+                            Console.error(f"month format in {_filename} at {_date} wrong: it should be YYYY-MM-DD")
+                        if not (1 <= day <= 31):
+                            Console.error(f"day format in {_filename} at {_date} wrong: it should be YYYY-MM-DD")
+                    except:
+                        Console.error(f"time format in {_filename} at {_date} wrong: it should be YYYY-MM-DD")
 
-            for _date in ["modified", "created"]:
-                value = entry[_date]
-                # verify if value is corredt. datetime
-                try:
-                    year, month, day = value.split("-")
-                    if len (year) != 4:
-                        Console.error(f"year format in {filename} at {_date} wrong: it should be YYYY-MM-DD")
-                    if not (1 <= month <= 12):
-                        Console.error(f"month format in {filename} at {_date} wrong: it should be YYYY-MM-DD")
-                    if not (1 <= day <= 31):
-                        Console.error(f"day format in {filename} at {_date} wrong: it should be YYYY-MM-DD")
-                except:
-                    Console.error(f"time format in {filename} at {_date} wrong: it should be YYYY-MM-DD")
-
-
+            except Exception as e:
+                print(e)
