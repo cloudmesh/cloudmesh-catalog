@@ -110,24 +110,30 @@ class Convert:
             content = readfile(filename)
             entry = yaml.safe_load(content)
 
+            _filename = filename
+            if relative:
+                _filename = self._shorten_path(filename)
+
             value = entry["id"]
             if value.lower() in ["missing", "unkown"]:
-                Console.error(f"id is not specified {filename} id={value} wrong")
+                Console.error(f"id is not specified {_filename} id={value} wrong")
             try:
                 for _date in ["modified", "created"]:
-                    value = entry[_date]
+                    value = str(entry[_date])
                     try:
-                        year, month, day = value.split("-")
-                        if relative:
-                            _filename = self._shorten_path(filename)
-                        if len (year) != 4:
-                            Console.error(f"year format in {_filename} at {_date} wrong: it should be YYYY-MM-DD")
+                        year, month, day = value.strip().split("-")
+                        year = int(year)
+                        month = int(month)
+                        day = int(day)
+                        if not (1900 <= year <= 2100):
+                            Console.error(f"year format in {_filename} at {_date} wrong: it should be YYYY-MM-DD found '{value}'")
                         if not (1 <= month <= 12):
-                            Console.error(f"month format in {_filename} at {_date} wrong: it should be YYYY-MM-DD")
+                            Console.error(f"month format in {_filename} at {_date} wrong: it should be YYYY-MM-DD found '{value}'")
                         if not (1 <= day <= 31):
-                            Console.error(f"day format in {_filename} at {_date} wrong: it should be YYYY-MM-DD")
-                    except:
-                        Console.error(f"time format in {_filename} at {_date} wrong: it should be YYYY-MM-DD")
+                            Console.error(f"day format in {_filename} at {_date} wrong: it should be YYYY-MM-DD found '{value}'")
+                    except Exception as e:
+                        Console.error(f"time format in {_filename} at {_date} wrong: it should be YYYY-MM-DD found '{value}'")
 
+                        print (e)
             except Exception as e:
                 print(e)
