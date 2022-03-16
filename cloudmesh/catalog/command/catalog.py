@@ -134,7 +134,7 @@ class CatalogCommand(PluginCommand):
                 directories or files and not from URLs
                 However, copy can also do file://path
 
-            catalog export bibtex [--name=NAME] [--destination=DESTINATION]
+            catalog export bibtex [--source=SOURCE] [--destination=DESTINATION]
                 Exports the information from the catalog as a single bibtex file
                 If a name is specified only the named entries are exported.
                 The format of the entries will be
@@ -149,7 +149,7 @@ class CatalogCommand(PluginCommand):
                 >   year={the year of the date when the entry was created}
                 > }
 
-            catalog export md [--name=NAME] [--destination=DESTINATION]
+            catalog export md [--source=SOURCE] [--destination=DESTINATION]
                 Exports the information from the catalog as a directory tree
                 equivalent to the original.
                 If a name is specified only the named entries are exported.
@@ -165,7 +165,7 @@ class CatalogCommand(PluginCommand):
                 >
                 > and so on
 
-            catalog export hugo md [--name=NAME] [--destination=DESTINATION]
+            catalog export hugo [--source=SOURCE] [--destination=DESTINATION]
 
                 Format of the entry
 
@@ -188,7 +188,7 @@ class CatalogCommand(PluginCommand):
                 >
                 > and so on
 
-            catalog export --template=TEMPLATE [--name=NAME]  [--source=SOURCE]
+            catalog export --template=TEMPLATE [--source=SOURCE] [--destination=DESTINATION]
 
                 formats the source file(s) based on the template that is provided.
                 The template is a file that uses curly brakets for replacement of
@@ -262,11 +262,19 @@ class CatalogCommand(PluginCommand):
             service = ServiceManager()
             print(service.info())
 
-        elif arguments.bibtex:
+        elif arguments.bibtex and arguments.export:
 
-            source = arguments.source
-            convert = Convert()
-            convert.bibtex(sources=source)
+            #  catalog export bibtex [--source=SOURCE] [--destination=DESTINATION]
+
+            VERBOSE(arguments)
+
+            if arguments.desitination is not None:
+                print("Destination not yet implemented")
+                return ""
+            else:
+                source = arguments.source
+                convert = Convert()
+                convert.bibtex(sources=source)
 
         elif arguments.hugo:
 

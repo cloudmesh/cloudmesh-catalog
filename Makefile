@@ -66,15 +66,15 @@ source:
 	cms help
 
 requirements:
-	echo "cloudmesh-cmd5" > tmp.txt
-	echo "cloudmesh-sys" >> tmp.txt
-	echo "cloudmesh-inventory" >> tmp.txt
-	echo "cloudmesh-configuration" >> tmp.txt
+	echo "cloudmesh-common" > tmp.txt
+	echo "cloudmesh-cmd5" >> tmp.txt
 	pip-compile setup.py
+	#cat requirements.txt >> tmp.txt
 	fgrep -v "# via" requirements.txt | fgrep -v "cloudmesh" >> tmp.txt
 	mv tmp.txt requirements.txt
-	git commit -m "update requirements" requirements.txt
-	git push
+	-git commit -m "update requirements" requirements.txt
+	-git push
+
 
 manual:
 	mkdir -p docs-source/source/manual

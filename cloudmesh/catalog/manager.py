@@ -1,5 +1,6 @@
 import os
-
+import socket
+import time
 import psutil
 
 from cloudmesh.common.Shell import Shell
@@ -27,6 +28,10 @@ class ServiceManager:
 
         Shell.mkdir(self.path)
 
+    def is_port_in_use(self) -> bool:
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            return s.connect_ex(('localhost', self.port)) == 0
+
     def start(self):
         """
 
@@ -35,11 +40,15 @@ class ServiceManager:
         """
 
         name = f"{self.path}/{self.name}"
-        os.system(f"rm -f {name}.pid")
+        try:
+            os.system(f"rm -f {name}.pid")
+        except:
+            pass
         command = f"nohup uvicorn cloudmesh.catalog.service:app --port={self.port} {self.reload} " \
                   f"> {name}.log 2>&1 & echo $! > {name}.pid"
         print(command)
         result = os.system(command)
+        time.sleep(1)
         print(result)
         if result != 0:
             Console.error("The catalog server could not be started due to an error")
@@ -86,7 +95,8 @@ class ServiceManager:
 
             except psutil.Error:
                 Console.red(". failed")
-        print(f"Deleting {child.pid} ", end="")
+
+        print(f"Deleting {pid} ", end="")
         p = psutil.Process(pid)
         p.kill()
         Console.green("deleted.")
@@ -102,6 +112,13 @@ class ServiceManager:
         probe = Shell.run(f"curl localhost:{self.port}")
         return '{"Cloudmesh Catalog":"running"}' in probe
 
+    def pid_exists(self, pid):
+        if pid is None:
+            return False
+        r = Shell.run(f"ps {pid}").strip().splitlines()
+        return len(r) > 1
+
+
     def info(self):
         """
 
@@ -112,10 +129,20 @@ class ServiceManager:
         data = dotdict({
             "pid": None,
             "children": None,
-            "status": False
+            "status": False,
+            "port": self.port
         })
         try:
             data.pid = int(self.get_pid())
+            if self.pid_exists(data.pid):
+                Console.ok(f"The process with pid {data.pid} exists")
+            else:
+                Console.error(f"The process with pid does not {data.pid} exists")
+                try:
+                    Console.warning(f"Removing PID file: {self.pid_file}")
+                    os.remove(self.pid_file)
+                except:
+                    pass
         except:
             pass
         try:
