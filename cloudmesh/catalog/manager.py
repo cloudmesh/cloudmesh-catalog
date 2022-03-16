@@ -92,8 +92,11 @@ class ServiceManager:
             pid = info["pid"]
         if get_platform() == 'windows':
             try:
-                print(f"Deleting {pid} ", end="")
-                r = Shell.run(f"kill -9 {pid}")
+                ps = Shell.run(f"ps -a | grep uvicorn")
+                ps = ps.strip().split()
+                winpid = ps[4]
+                print(f"Deleting {pid} {winpid}", end="")
+                r = Shell.run(f"taskkill //f //pid {winpid}")
             except Exception as e:
                 r=None
                 print(e)
