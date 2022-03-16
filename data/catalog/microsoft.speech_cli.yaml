@@ -2,7 +2,7 @@ speech_cli:
   id: unknown
   name: Speech Cli
   title: Speech Cli
-  author: Microsoft
+  author: Speech CLI
   slug: Microsoft-speech-Cli
   public: true
   description: |
