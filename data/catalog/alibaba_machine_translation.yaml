@@ -1,0 +1,34 @@
+baidu_ai_cloud:
+  id: unknown
+  name: Alibaba Machine Language
+  title: Alibaba Machine Language
+  author: Alibaba
+  slug: Alibaba-machine-translation
+  public: true
+  description: |
+   Provide high-quality e-commerce translation between English and Chinese, Spanish,
+   Russian, French, Portuguese, Arabic, Thai, Turkish, Vietnamese, Indonesian and other
+   languages. In-depth optimization of product titles, product descriptions, product
+   searches, etc.
+  version: unknown
+  license: unknown
+  microservice: no
+  protocol: REST
+  owner: Alibaba
+  modified: 12/15/2021
+  created: 09/20/2017
+  documentation: https://www.alibabacloud.com/help/en/product/30396.htm
+  source: unknown
+  specification: unknown
+  tags: ["artificial intelligence", "business solutions",
+        "machine learning", "cloud service",
+        "deep learning", "ai", "language translation"]
+  categories: ["Business", "Data Management", "General Services"]
+  additional_metadata: unknown
+  endpoint: unknown
+  sla: https://partners-intl.aliyun.com/help/en/doc-detail/42389.html
+  authors: The Baidu team can be contacted through support ticket within a user's account.
+  data: |
+    Alibaba's policy on data usage and management can be read about through
+    https://rulechannel.alibaba.com/icbu?type=detail&ruleId=2034&cId=1306#/rule/detail?cId=1306&ruleId=2034
+
