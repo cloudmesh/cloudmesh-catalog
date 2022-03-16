@@ -19,7 +19,7 @@ class Converter:
         self.data = yaml.safe_load(self.content)
         self.data["edit_url"] = "https://github.com/laszewsk/nist/blob/main/catalog/" + \
                                 str(filename).split("catalog/")[1]
-        day, month, year = self.data["modified"].split("-")
+        day, month, year = str(self.data["modified"]).split("-")
         import calendar
 
         self.data["label"] = "wrong"
