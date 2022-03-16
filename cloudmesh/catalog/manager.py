@@ -1,5 +1,6 @@
 import os
 import socket
+import sys
 import time
 import psutil
 
@@ -8,6 +9,7 @@ from cloudmesh.common.console import Console
 from cloudmesh.common.dotdict import dotdict
 from cloudmesh.common.util import path_expand
 from cloudmesh.common.util import readfile
+from cloudmesh.common.systeminfo import get_platform
 
 
 class ServiceManager:
@@ -22,6 +24,8 @@ class ServiceManager:
         """
         self.name = name or "cloudmesh-catalog-service"
         self.path = path_expand("~/.cloudmesh/catalog")
+        if get_platform() == "windows":
+            self.path=self.path.replace("\\","/")
         self.pid_file = f"{self.path}/{self.name}.pid"
         self.port = 8001
         self.reload = "--reload"
@@ -46,6 +50,8 @@ class ServiceManager:
             pass
         command = f"nohup uvicorn cloudmesh.catalog.service:app --port={self.port} {self.reload} " \
                   f"> {name}.log 2>&1 & echo $! > {name}.pid"
+        if get_platform() == "windows":
+            command=command.replace("\\","/")
         print(command)
         result = os.system(command)
         time.sleep(1)
@@ -81,24 +87,31 @@ class ServiceManager:
         :return:
         :rtype:
         """
-
         if pid is None:
             info = self.info()
             pid = info["pid"]
-
-        for child in psutil.Process(pid).children():
+        if get_platform() == 'windows':
             try:
-                print(f"Deleting {child.pid} ", end="")
-                p = psutil.Process(child.pid)
-                p.kill()
-                Console.green("deleted.")
+                print(f"Deleting {pid} ", end="")
+                r = Shell.run(f"kill -9 {pid}")
+            except Exception as e:
+                r=None
+                print(e)
+        else:
+            for child in psutil.Process(pid).children():
+                try:
+                    print(f"Deleting {child.pid} ", end="")
+                    p = psutil.Process(child.pid)
+                    p.kill()
+                    Console.green("deleted.")
 
-            except psutil.Error:
-                Console.red(". failed")
+                except psutil.Error:
+                    Console.red(". failed")
 
-        print(f"Deleting {pid} ", end="")
-        p = psutil.Process(pid)
-        p.kill()
+            print(f"Deleting {pid} ", end="")
+
+            p = psutil.Process(pid)
+            p.kill()
         Console.green("deleted.")
         os.remove(self.pid_file)
 
