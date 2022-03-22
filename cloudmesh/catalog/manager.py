@@ -92,11 +92,6 @@ class ServiceManager:
             pid = info["pid"]
         if get_platform() == 'windows':
             try:
-                # please replace this with the logic to read pid from the startfile.
-                # we could verifyif the process n the file is still running and if kill, iff not we do
-                # Console.warning("process is no longer running. Deleating ~/.cloudmesh/catalog/  ???pidfile???. forgot the name
-                # the next line needs to be changed, note that pid could occur multiple times in the autput as may be included
-                # in other pid numbers or be the winpid, so this need to be done more careful
                 ps = Shell.run(f"ps -a | grep {pid} | grep uvicorn")
                 ps = ps.strip().split()
                 winpid = ps[4]
