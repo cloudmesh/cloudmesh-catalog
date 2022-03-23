@@ -10,7 +10,8 @@ from cloudmesh.common.dotdict import dotdict
 from cloudmesh.common.util import path_expand
 from cloudmesh.common.util import readfile
 from cloudmesh.common.systeminfo import get_platform
-
+from cloudmesh.common.util import writefile
+from cloudmesh.common.util import yn_choice
 
 class ServiceManager:
 
@@ -48,12 +49,27 @@ class ServiceManager:
             os.system(f"rm -f {name}.pid")
         except:
             pass
+
         command = f"nohup uvicorn cloudmesh.catalog.service:app --port={self.port} {self.reload} " \
                   f"> {name}.log 2>&1 & echo $! > {name}.pid"
+
         if get_platform() == "windows":
-            command=command.replace("\\","/")
-        print(command)
-        result = os.system(command)
+
+            Console.error("The windows program has a bug when stopping the catalog. "
+                          "At this time we stop all python and uvicorn processes")
+            print()
+            command = f"start //b uvicorn cloudmesh.catalog.service:app --port={self.port} {self.reload} " \
+                      f"; bash"
+
+            command = command.replace("\\", "/")
+            print(command)
+            pid = Shell.terminal(command=command)
+            result = 0
+            writefile(f"{name}.pid", str(pid))
+        else:
+            print(command)
+            result = os.system(command)
+
         time.sleep(1)
         print(result)
         if result != 0:
@@ -92,11 +108,27 @@ class ServiceManager:
             pid = info["pid"]
         if get_platform() == 'windows':
             try:
-                ps = Shell.run(f"ps -a | grep {pid} | grep uvicorn")
-                ps = ps.strip().split()
-                winpid = ps[4]
-                print(f"Deleting {pid} {winpid}", end="")
-                r = Shell.run(f"taskkill //f //t //pid {winpid}")
+                Console.error("The code has currently a bug and we delete simply all pyton and uviconr processes")
+                if yn_choice("Would you like to delete them"):
+                    print(f"Deleting all python and uvicorn processes ")
+
+                    #
+                    # this has another bug, as we run python we can not delete ourselfs
+                    # find pids of all python.exe, and delete all but for this process
+                    #
+                    for command in ["uvicorn.exe", "python.exe"]:
+                        try:
+                            os.system(f"taskkill /f /IM {command}")
+                        except:
+                            pass
+                    print ("ok.")
+                    print(f"Deleting {pid} ", end="")
+                    os.system(f"taskkill /f /t /pid {pid}")
+                    print()
+                    print("Please now kill the window by hand.")
+                else:
+                    return
+
             except Exception as e:
                 r=None
                 print(e)
@@ -116,7 +148,11 @@ class ServiceManager:
             p = psutil.Process(pid)
             p.kill()
         Console.green("deleted.")
-        os.remove(self.pid_file)
+        try:
+            Shell.rm(self.pid_file)
+        except:
+            Console.warning(f"Pid file already deleted.")
+
 
     def status(self):
         """
