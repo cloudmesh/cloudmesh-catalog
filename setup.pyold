@@ -15,31 +15,14 @@
 # limitations under the License.                                          #
 # ------------------------------------------------------------------------#
 
-from setuptools import find_packages, setup
+from setuptools import find_packages, setup, find_namespace_packages
 import io
 
 def readfile(filename):
     with io.open(filename, encoding="utf-8") as stream:
         return stream.read().split()
 
-
-#requiers = readfile ('requirements.txt')
-#
-# add minimum requirements here
-#
-requiers = """
-cloudmesh-cmd5
-cloudmesh-sys
-cloudmesh-inventory
-cloudmesh-configuration
-pyyaml
-yamldb
-fastapi
-uvicorn
-yamllint
-""".split("\n")
-
-# dependency_links = ['http://github.com/nicolaiarocci/eve.git@develop']
+requiers = readfile ('requirements.txt')
 
 version = readfile("VERSION")[0].strip()
 
@@ -65,7 +48,15 @@ setup(
     version=version,
     license="Apache 2.0",
     url=URL,
-    packages=find_packages(),
+    packages=find_namespace_packages(
+        exclude=("tests",
+                 "deprecated",
+                 "propose",
+                 "examples",
+                 "conda"),
+        include=['cloudmesh']),
+    package_dir={"cloudmesh": "cloudmesh"},
+    include_package_data=True,
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Environment :: Web Environment",
@@ -83,5 +74,4 @@ setup(
         "coverage",
     ],
     zip_safe=False,
-    namespace_packages=['cloudmesh'],
 )
