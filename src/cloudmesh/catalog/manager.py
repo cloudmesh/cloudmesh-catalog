@@ -14,15 +14,41 @@ from cloudmesh.common.util import writefile
 from cloudmesh.common.util import yn_choice
 
 class ServiceManager:
+    """
+    ServiceManager Class
+
+    This class provides functionality for managing a service, such as starting, stopping, and checking its status.
+
+    Methods:
+        - __init__(name=None): Initializes the ServiceManager instance.
+        - is_port_in_use(): Checks if the specified port is in use.
+        - start(): Starts the service.
+        - get_pid(): Gets the process ID (PID) of the service.
+        - stop(pid=None): Stops the service.
+        - status(): Checks the status of the service.
+        - pid_exists(pid): Checks if the specified PID exists.
+        - info(): Retrieves information about the service.
+
+    Attributes:
+        - name (str): The name of the service.
+        - path (str): The path to the service directory.
+        - pid_file (str): The path to the PID file.
+        - port (int): The port on which the service runs.
+        - reload (str): The reload option for uvicorn.
+    """
 
     # r = cloudmesh.common.SHell.run("uvicorn .... ")
 
     def __init__(self, name=None):
         """
+         Initializes the ServiceManager instance.
 
-        :param name:
-        :type name:
-        """
+         Args:
+             name (str): The name of the service.
+
+         Returns:
+             None
+         """
         self.name = name or "cloudmesh-catalog-service"
         self.path = path_expand("~/.cloudmesh/catalog")
         if get_platform() == "windows":
@@ -34,14 +60,24 @@ class ServiceManager:
         Shell.mkdir(self.path)
 
     def is_port_in_use(self) -> bool:
+        """
+        Checks if the specified port is in use.
+
+        Returns:
+            bool: True if the port is in use, False otherwise.
+        """
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             return s.connect_ex(('localhost', self.port)) == 0
 
     def start(self):
         """
+        Starts the service.
 
-        :return:
-        :rtype:
+        Raises:
+            RuntimeError: If the catalog server could not be started due to an error.
+
+        Returns:
+            None
         """
 
         name = f"{self.path}/{self.name}"
@@ -85,9 +121,10 @@ class ServiceManager:
 
     def get_pid(self):
         """
+        Gets the process ID (PID) of the service.
 
-        :return:
-        :rtype:
+        Returns:
+            str: The process ID (PID) of the service.
         """
         try:
             pid = readfile(f"{self.pid_file}").strip()
@@ -99,9 +136,13 @@ class ServiceManager:
 
     def stop(self, pid=None):
         """
+        Stops the service.
 
-        :return:
-        :rtype:
+        Args:
+            pid (str): The process ID (PID) of the service. If None, the PID is retrieved from the service.
+
+        Returns:
+            None
         """
         if pid is None:
             info = self.info()
@@ -156,15 +197,25 @@ class ServiceManager:
 
     def status(self):
         """
+        Checks the status of the service.
 
-        :return:
-        :rtype:
+        Returns:
+            bool: True if the service is running, False otherwise.
         """
         # for debug only
         probe = Shell.run(f"curl localhost:{self.port}")
         return '{"Cloudmesh Catalog":"running"}' in probe
 
     def pid_exists(self, pid):
+        """
+        Checks if the specified PID exists.
+
+        Args:
+            pid (str): The process ID (PID) to check.
+
+        Returns:
+            bool: True if the PID exists, False otherwise.
+        """
         if pid is None:
             return False
         r = Shell.run(f"ps {pid}").strip().splitlines()
@@ -173,9 +224,10 @@ class ServiceManager:
 
     def info(self):
         """
+        Retrieves information about the service.
 
-        :return:
-        :rtype:
+        Returns:
+            dotdict: A dotdict containing information about the service, including PID, status, port, and children.
         """
 
         data = dotdict({

@@ -11,8 +11,7 @@ class CatalogCommand(PluginCommand):
     # noinspection PyUnusedLocal
     @command
     def do_catalog(self, args, arguments):
-        """
-        ::
+        """::
 
           Usage:
                 catalog info
