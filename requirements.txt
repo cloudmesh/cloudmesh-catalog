@@ -1,3 +1,5 @@
 cloudmesh-common
 cloudmesh-cmd5
-fastapi
+mdutils
+uvicorn
+yamldb
