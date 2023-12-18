@@ -9,7 +9,7 @@ requires = [
 [project]
 name = "cloudmesh-catalog"
 version = "5.0.17"
-description = "A set of useful APIs for cloudmesh"
+description = "The cloudmesh catalog program"
 readme = "README.md"
 requires-python = ">=3.8"
 license = {file = "LICENSE"}
@@ -50,6 +50,9 @@ classifiers = [
 
 dependencies = [
     "cloudmesh-cmd5",
+    "mdutils",
+    "uvicorn"
+    "yamldb"
 ]
 [project.urls]
 "Documentation" = "https://github.com/cloudmesh/cloudmesh-common"
