@@ -54,8 +54,13 @@ dependencies = [
     "uvicorn"
     "yamldb"
 ]
+
 [project.urls]
-"Documentation" = "https://github.com/cloudmesh/cloudmesh-common"
+Homepage = "https://github.com/cloudmesh/cloudmesh-catalog"
+Documentation = "https://github.com/cloudmesh/cloudmesh-catalog/blob/main/README.md"
+Repository = "https://github.com/cloudmesh/cloudmesh-catalog.git"
+Issues = "https://github.com/cloudmesh/cloudmesh-catalog/issues"
+Changelog = "https://github.com/cloudmesh/cloudmesh-catalog/blob/main/CHANGELOG.md"
 
 [tool.setuptools.packages.find]
 where = ["src/"]
