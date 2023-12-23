@@ -8,7 +8,7 @@ requires = [
 
 [project]
 name = "cloudmesh-catalog"
-version = "5.0.17"
+version = "5.0.1"
 description = "The cloudmesh catalog program"
 readme = "README.md"
 requires-python = ">=3.8"
